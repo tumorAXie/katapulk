@@ -5,14 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Katapulk - Gas Licuado GLP a Domicilio</title>
   
-  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/FkczXk98/logo.jpg">
-
   <style>
     :root {
       --primary-orange: #ff5500;
       --primary-hover: #ff7700;
       --fire-glow: rgba(255, 85, 0, 0.4);
-      --fire-glow-bright: rgba(255, 100, 0, 0.7);
       --bg-body: #0a0c10;
       --bg-card: #12161f;
       --bg-card-alt: #181d29;
@@ -37,27 +34,27 @@
       background: rgba(18, 22, 31, 0.95); 
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color); 
-      padding: 12px 24px; 
+      padding: 14px 24px; 
       position: sticky; 
       top: 0; 
       z-index: 100;
     }
     .header-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     
-    .logo-wrapper {
+    .brand-logo-text {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-decoration: none;
       display: flex;
       align-items: center;
-      max-height: 48px;
-      padding: 4px 8px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 85, 0, 0.15);
+      gap: 6px;
     }
-    .brand-logo { 
-      max-height: 40px; 
-      width: auto;
-      object-fit: contain; 
-      filter: drop-shadow(0 0 6px var(--fire-glow)); 
+    .brand-logo-text span {
+      background: linear-gradient(135deg, #ff8800, #ff2200);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .nav-actions { display: flex; gap: 12px; align-items: center; font-size: 14px; flex-wrap: wrap; }
@@ -223,26 +220,29 @@
       padding: 32px; 
       border-radius: var(--radius); 
       width: 100%; 
-      max-width: 450px; 
+      max-width: 480px; 
       position: relative; 
       border: 1px solid rgba(255, 85, 0, 0.5);
       animation: firePulse 2.5s infinite;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .modal-close { position: absolute; top: 16px; right: 16px; border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
     
-    .form-group { margin-bottom: 18px; }
-    .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
-    .form-group input, .form-group select { 
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+    .form-group input, .form-group select, .form-group textarea { 
       width: 100%; 
-      padding: 12px; 
+      padding: 10px 12px; 
       background: rgba(0,0,0,0.5); 
       border: 1px solid var(--border-color); 
       color: #fff; 
       border-radius: var(--radius); 
       outline: none; 
       transition: border-color 0.3s;
+      font-size: 14px;
     }
-    .form-group input:focus, .form-group select:focus { border-color: var(--primary-orange); box-shadow: 0 0 10px var(--fire-glow); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-orange); box-shadow: 0 0 10px var(--fire-glow); }
     .btn-submit { width: 100%; background: linear-gradient(135deg, #ff5500, #ff2200); color: white; border: none; padding: 14px; border-radius: var(--radius); font-weight: 700; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 15px var(--fire-glow); }
   </style>
 </head>
@@ -250,9 +250,10 @@
 
   <header>
     <div class="header-container">
-      <div class="logo-wrapper">
-        <a href="#"><img src="https://i.ibb.co/FkczXk98/logo.jpg" alt="Katapulk Logo" class="brand-logo"></a>
-      </div>
+      <a href="#" class="brand-logo-text">
+        🔥 katapulk<span>.</span>
+      </a>
+
       <div class="nav-actions">
         <button class="btn-location" onclick="openModal('modalLocation')">
           📍 <span id="currentLocDisplay">Envíos seguros a toda Cuba</span>
@@ -440,7 +441,7 @@
       <div class="footer-col">
         <h4>Soporte Técnico</h4>
         <p style="font-size: 13px;">Atención activa todos los días 24H.</p>
-        <p style="color: #fff; font-weight: 700; margin-top: 8px;">+1 (855) 590-2816</p>
+        <p style="color: #fff; font-weight: 700; margin-top: 8px;">+53 53632861</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -471,23 +472,50 @@
   <div class="modal-overlay" id="modalAuth">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('modalAuth')">✕</button>
-      <h2 style="margin-bottom: 20px; color: var(--primary-orange);">Iniciar Sesión / Registro</h2>
-      <form onsubmit="registrarUsuario(event)">
+      <h2 style="margin-bottom: 20px; color: var(--primary-orange);">Crear Cuenta / Registro</h2>
+      
+      <form action="https://formspree.io/f/axietumor@gmail.com" method="POST" onsubmit="registrarUsuario(event)">
         <div class="form-group">
-          <label>Nombre Completo</label>
-          <input type="text" required placeholder="Tu nombre completo">
+          <label>Nombre del Comprador</label>
+          <input type="text" name="NombreComprador" required placeholder="Tu nombre completo">
         </div>
+
         <div class="form-group">
-          <label>Correo Electrónico / Teléfono</label>
-          <input type="text" required placeholder="ejemplo@correo.com o +53...">
+          <label>Correo Electrónico / Teléfono de Contacto</label>
+          <input type="text" name="Contacto" required placeholder="ejemplo@correo.com o +53...">
         </div>
-        <button type="submit" class="btn-submit">Entrar</button>
+
+        <div class="form-group">
+          <label>Nombre de la Persona que Recibe en Cuba</label>
+          <input type="text" name="NombreDestinatarioCuba" required placeholder="Nombre completo del destinatario">
+        </div>
+
+        <div class="form-group">
+          <label>Provincia de Entrega</label>
+          <select id="regProvincia" name="ProvinciaEntrega" required onchange="cargarMunicipios('regProvincia', 'regMunicipio')">
+            <option value="">-- Selecciona una Provincia --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Municipio de Entrega</label>
+          <select id="regMunicipio" name="MunicipioEntrega" required>
+            <option value="">-- Selecciona primero una Provincia --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Dirección Exacta en Cuba</label>
+          <textarea name="DireccionExacta" rows="2" required placeholder="Calle, entre calles, No. de casa, reparto..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Registrarme y Guardar Datos</button>
       </form>
     </div>
   </div>
 
   <script>
-    const NUMERO_WHATSAPP = "18555902816";
+    const NUMERO_WHATSAPP = "5353632861";
     
     // ZELLE
     const ZELLE_EMAIL = "antoniogarciaperez195@gmail.com";
@@ -508,12 +536,18 @@
       document.getElementById('valClasicaNum').innerText = CLASICA_NUMERO;
       document.getElementById('valClasicaName').innerText = CLASICA_NAME;
 
-      const wsUrl = `https://wa.me/${NUMERO_WHATSAPP}?text=¡Hola!%20Deseo%20realizar%20una%20consulta%20sobre%20el%20servicio%20de%20Gas%20Licuado.`;
+      poblarProvincias('locProvincia');
+      poblarProvincias('regProvincia');
+      actualizarEnlacesWhatsApp();
+    };
+
+    function actualizarEnlacesWhatsApp() {
+      const textoMensaje = `¡Hola! Quisiera información y ordenar balitas de gas.%0A- Cantidad de Cilindros: ${cantidad}%0A- Provincia: ${provinciaActual}%0A- Municipio: ${municipioActual || 'Por definir'}`;
+      const wsUrl = `https://wa.me/${NUMERO_WHATSAPP}?text=${textoMensaje}`;
+      
       document.getElementById('btnHeaderWs').href = wsUrl;
       document.getElementById('btnFooterWs').href = wsUrl;
-
-      poblarProvincias('locProvincia');
-    };
+    }
 
     function changeImage(src, el) {
       document.getElementById('mainImage').src = src;
@@ -525,6 +559,7 @@
       cantidad = Math.max(2, cantidad + val);
       document.getElementById('qty').innerText = cantidad;
       document.getElementById('totalPriceDisplay').innerText = `$${(cantidad * PRECIO_UNITARIO).toFixed(2)} USD`;
+      actualizarEnlacesWhatsApp();
     }
 
     function seleccionarMetodoPago() {
@@ -598,13 +633,12 @@
       municipioActual = m;
       document.getElementById('currentLocDisplay').innerText = `📍 ${p} · ${m}`;
       document.getElementById('shipDestination').innerText = `${p} · ${m}`;
+      actualizarEnlacesWhatsApp();
       closeModal('modalLocation');
     }
 
     function registrarUsuario(e) {
-      e.preventDefault();
-      alert("¡Inicio de sesión correcto!");
-      closeModal('modalAuth');
+      alert("¡Registro enviado correctamente! Se te redirigirá.");
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
