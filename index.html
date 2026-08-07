@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Katapulk - Gas Licuado GLP a Domicilio</title>
   
+  <!-- Favicon para la pestaña del navegador -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+
   <style>
     :root {
       --primary-orange: #ff5500;
@@ -185,6 +188,39 @@
     .account-field { font-size: 13px; margin-bottom: 6px; color: #e5e7eb; word-break: break-all; }
     .account-field span { font-weight: bold; color: var(--text-muted); }
 
+    .upload-box {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 85, 0, 0.2);
+    }
+    .upload-box label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .file-input {
+      width: 100%;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .file-input::file-selector-button {
+      background: var(--primary-orange);
+      border: none;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
     .shipping-alert { background: rgba(255, 170, 0, 0.08); border: 1px solid rgba(255, 170, 0, 0.3); padding: 18px; border-radius: var(--radius); font-size: 14px; margin-top: 24px; color: #fde047; }
     .shipping-alert strong { color: #facc15; }
 
@@ -341,8 +377,10 @@
               <div class="account-title">💵 Datos para Pago vía Zelle</div>
               <div class="account-field"><span>Correo Zelle:</span> <strong id="valZelleEmail">antoniogarciaperez195@gmail.com</strong></div>
               <div class="account-field"><span>Nombre Titular:</span> <strong id="valZelleName">A consultar vía WhatsApp</strong></div>
-              <div class="account-field" style="margin-top: 8px; font-size: 12px; color: var(--primary-orange);">
-                * Envías el comprobante de pago por WhatsApp tras completar la transferencia.
+              
+              <div class="upload-box">
+                <label>Subir captura de pantalla del pago:</label>
+                <input type="file" accept="image/*" class="file-input">
               </div>
             </div>
 
@@ -350,8 +388,10 @@
               <div class="account-title">💳 Datos USD Tarjeta Clásica</div>
               <div class="account-field"><span>Número de Tarjeta:</span> <strong id="valClasicaNum">A consultar vía WhatsApp</strong></div>
               <div class="account-field"><span>Nombre Titular:</span> <strong id="valClasicaName">A consultar vía WhatsApp</strong></div>
-              <div class="account-field" style="margin-top: 8px; font-size: 12px; color: var(--primary-orange);">
-                * Envías el comprobante de pago por WhatsApp tras completar la transferencia.
+              
+              <div class="upload-box">
+                <label>Subir captura de pantalla del pago:</label>
+                <input type="file" accept="image/*" class="file-input">
               </div>
             </div>
           </div>
@@ -395,7 +435,7 @@
         <div class="faq-item">
           <button class="faq-header" onclick="toggleFaq(this)">¿Por qué el mínimo de compra es de 2 cilindros? <span>+</span></button>
           <div class="faq-content">
-            El transporte de cilindros de gas requiere logística especializada y estrictas medidas de seguridad. Requerir un mínimo de 2 unidades nos permite optimizar las rutas de distribución y ofrecer la tarifa de envío a domicilio más baja posible a nuestros clientes.
+            El transporte de cilindros de gas requiere logística especializada y strictly medidas de seguridad. Requerir un mínimo de 2 unidades nos permite optimizar las rutas de distribución y ofrecer la tarifa de envío a domicilio más baja posible a nuestros clientes.
           </div>
         </div>
 
@@ -638,7 +678,7 @@
     }
 
     function registrarUsuario(e) {
-      alert("¡Registro enviado correctamente! Se te redirigirá.");
+      alert("¡Registro enviado correctamente!");
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
