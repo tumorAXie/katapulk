@@ -44,7 +44,6 @@
     }
     .header-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     
-    /* LOGO AJUSTADO SIN RECORTE */
     .logo-wrapper {
       display: flex;
       align-items: center;
@@ -145,7 +144,6 @@
     .price-tag { font-size: 40px; font-weight: 900; margin: 12px 0 4px; color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.2); }
     .unit-price { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
 
-    /* AVISO MÍNIMO DE COMPRA */
     .min-order-box {
       background: rgba(255, 85, 0, 0.12);
       border-left: 4px solid var(--primary-orange);
@@ -162,7 +160,6 @@
     .qty-picker button:hover { background: var(--primary-orange); }
     .qty-picker span { width: 48px; text-align: center; font-weight: 700; font-size: 18px; }
 
-    /* SECCIÓN DE MÉTODOS DE PAGO Y CUENTAS */
     .payment-selection { margin-top: 20px; }
     .payment-select-label { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #fff; display: block; }
     .payment-dropdown {
@@ -260,7 +257,6 @@
         <button class="btn-location" onclick="openModal('modalLocation')">
           📍 <span id="currentLocDisplay">Envíos seguros a toda Cuba</span>
         </button>
-        <!-- BOTÓN WHATSAPP ATENCIÓN 24H -->
         <a id="btnHeaderWs" href="#" target="_blank" class="btn-ws-header">
           💬 Atención 24/7 WhatsApp
         </a>
@@ -318,7 +314,6 @@
           <div class="price-tag" id="totalPriceDisplay">$58.00 USD</div>
           <div class="unit-price">($29.00 USD por unidad)</div>
 
-          <!-- MÍNIMO DE COMPRA Y ARGUMENTO -->
           <div class="min-order-box">
             <strong>⚠️ Pedido mínimo requerido: 2 cilindros</strong>
             Para garantizar la viabilidad del transporte especializado de carga peligrosa a domicilio y mantener la tarifa de envío más accesible posible, la orden mínima es de 2 unidades.
@@ -333,7 +328,6 @@
             </div>
           </div>
 
-          <!-- SELECCIÓN Y MOSTRADO DE MÉTODOS DE PAGO -->
           <div class="payment-selection">
             <label class="payment-select-label">Selecciona el Método de Pago:</label>
             <select class="payment-dropdown" id="paymentMethodSelect" onchange="seleccionarMetodoPago()">
@@ -342,23 +336,21 @@
               <option value="clasica">💳 USD Tarjeta Clásica</option>
             </select>
 
-            <!-- CAJA DETALLES ZELLE -->
             <div class="account-details-card" id="cardZelle">
               <div class="account-title">💵 Datos para Pago vía Zelle</div>
-              <div class="account-field"><span>Correo Zelle:</span> <strong id="valZelleEmail">[EDITAR_EN_GITHUB: CORREO_ZELLE]</strong></div>
-              <div class="account-field"><span>Nombre Titular:</span> <strong id="valZelleName">[EDITAR_EN_GITHUB: TITULAR_ZELLE]</strong></div>
+              <div class="account-field"><span>Correo Zelle:</span> <strong id="valZelleEmail">antoniogarciaperez195@gmail.com</strong></div>
+              <div class="account-field"><span>Nombre Titular:</span> <strong id="valZelleName">A consultar vía WhatsApp</strong></div>
               <div class="account-field" style="margin-top: 8px; font-size: 12px; color: var(--primary-orange);">
-                * Envía el comprobante de pago por WhatsApp tras completar la transferencia.
+                * Envías el comprobante de pago por WhatsApp tras completar la transferencia.
               </div>
             </div>
 
-            <!-- CAJA DETALLES TARJETA CLÁSICA -->
             <div class="account-details-card" id="cardClasica">
               <div class="account-title">💳 Datos USD Tarjeta Clásica</div>
-              <div class="account-field"><span>Número de Tarjeta:</span> <strong id="valClasicaNum">[EDITAR_EN_GITHUB: NUMERO_TARJETA_CLASICA]</strong></div>
-              <div class="account-field"><span>Nombre Titular:</span> <strong id="valClasicaName">[EDITAR_EN_GITHUB: TITULAR_TARJETA]</strong></div>
+              <div class="account-field"><span>Número de Tarjeta:</span> <strong id="valClasicaNum">A consultar vía WhatsApp</strong></div>
+              <div class="account-field"><span>Nombre Titular:</span> <strong id="valClasicaName">A consultar vía WhatsApp</strong></div>
               <div class="account-field" style="margin-top: 8px; font-size: 12px; color: var(--primary-orange);">
-                * Envía el comprobante de pago por WhatsApp tras completar la transferencia.
+                * Envías el comprobante de pago por WhatsApp tras completar la transferencia.
               </div>
             </div>
           </div>
@@ -495,33 +487,27 @@
   </div>
 
   <script>
-    // =========================================================================
-    // VARIABLES PARA EDITAR DIRECTAMENTE EN GITHUB
-    // =========================================================================
-    const NUMERO_WHATSAPP = "18555902816"; // Formato internacional sin espacios ni '+'
+    const NUMERO_WHATSAPP = "18555902816";
     
     // ZELLE
-    const ZELLE_EMAIL = ""; // Ejemplo: "pagos@tudominio.com"
-    const ZELLE_NAME = "";  // Ejemplo: "Katapulk Logistics LLC"
+    const ZELLE_EMAIL = "antoniogarciaperez195@gmail.com";
+    const ZELLE_NAME = "A consultar vía WhatsApp";
 
     // TARJETA CLÁSICA
-    const CLASICA_NUMERO = ""; // Ejemplo: "9224 0000 0000 0000"
-    const CLASICA_NAME = "";   // Ejemplo: "Nombre Apellido"
-    // =========================================================================
+    const CLASICA_NUMERO = "A consultar vía WhatsApp";
+    const CLASICA_NAME = "A consultar vía WhatsApp";
 
     const PRECIO_UNITARIO = 29;
-    let cantidad = 2; // Mínimo de compra obligado
+    let cantidad = 2;
     let provinciaActual = "Envíos a toda la Isla";
     let municipioActual = "";
 
     window.onload = function() {
-      // Cargar variables en la vista
-      document.getElementById('valZelleEmail').innerText = ZELLE_EMAIL || "A consultar vía WhatsApp";
-      document.getElementById('valZelleName').innerText = ZELLE_NAME || "A consultar vía WhatsApp";
-      document.getElementById('valClasicaNum').innerText = CLASICA_NUMERO || "A consultar vía WhatsApp";
-      document.getElementById('valClasicaName').innerText = CLASICA_NAME || "A consultar vía WhatsApp";
+      document.getElementById('valZelleEmail').innerText = ZELLE_EMAIL;
+      document.getElementById('valZelleName').innerText = ZELLE_NAME;
+      document.getElementById('valClasicaNum').innerText = CLASICA_NUMERO;
+      document.getElementById('valClasicaName').innerText = CLASICA_NAME;
 
-      // Configurar enlaces WhatsApp
       const wsUrl = `https://wa.me/${NUMERO_WHATSAPP}?text=¡Hola!%20Deseo%20realizar%20una%20consulta%20sobre%20el%20servicio%20de%20Gas%20Licuado.`;
       document.getElementById('btnHeaderWs').href = wsUrl;
       document.getElementById('btnFooterWs').href = wsUrl;
@@ -536,7 +522,6 @@
     }
 
     function updateQty(val) {
-      // Forzar mínimo de 2 unidades
       cantidad = Math.max(2, cantidad + val);
       document.getElementById('qty').innerText = cantidad;
       document.getElementById('totalPriceDisplay').innerText = `$${(cantidad * PRECIO_UNITARIO).toFixed(2)} USD`;
