@@ -1,73 +1,311 @@
-<!-- CONTENEDOR PRINCIPAL INTEGRADOR -->
-<div style="max-width: 600px; margin: 20px auto; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katapulk - Envíos de Gas y Suministros a Cuba</title>
+  
+  <!-- FAVICON EN LA PESTAÑA DEL NAVEGADOR -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
 
-  <!-- SECCIÓN DE MÉTODO DE PAGO / CHECKOUT -->
-  <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 24px; color: #f8fafc; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
-    
-    <!-- Encabezado del Método de Pago -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-      <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-        💳 Pago Seguro con Tarjeta / Apple Pay
-      </h3>
-      <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.3);">
-        Internacional
-      </span>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+      padding-bottom: 50px;
+    }
+
+    /* HEADER */
+    header {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .badge-top {
+      background: #22c55e;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0f172a;
+    }
+
+    /* PRODUCTO BALITAS DE GAS */
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 600px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      background-color: #e2e8f0;
+    }
+
+    .product-info h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .product-info p {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .price-tag {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    /* FORMULARIO */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      background: #f8fafc;
+    }
+
+    /* MÓDULO DE PAGO */
+    .payment-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 24px;
+      color: #f8fafc;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-pay {
+      width: 100%;
+      background: #22c55e;
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 10px;
+    }
+
+    .btn-pay:hover {
+      background: #16a34a;
+    }
+
+    /* PREGUNTAS FRECUENTES */
+    .faq-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    details {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      color: #ffffff;
+    }
+
+    summary {
+      font-weight: 600;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .faq-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #1e293b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER DE LA PÁGINA -->
+  <header>
+    <a href="#" class="logo">
+      🔥 Katapulk
+    </a>
+    <span class="badge-top">Envíos Activos a Cuba 🚚</span>
+  </header>
+
+  <div class="container">
+
+    <!-- PASO 1: SELECCIÓN DEL PRODUCTO (BALITAS DE GAS GLP) -->
+    <div class="card">
+      <div class="card-title">📦 1. Producto Seleccionado</div>
+      <div class="product-grid">
+        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=500&q=80" alt="Cilindro de Gas GLP" class="product-image">
+        <div class="product-info">
+          <h3>Cilindro / Balita de Gas GLP (10 kg)</h3>
+          <p>Entrega prioritaria a domicilio en Cuba. Recarga e instalación garantizada.</p>
+          <div class="price-tag">$29.00 USD <span style="font-size: 14px; color: #64748b; font-weight: 400;">/ unidad</span></div>
+        </div>
+      </div>
     </div>
 
-    <!-- Texto Explicativo (Opción 1) -->
-    <p style="font-size: 13.5px; line-height: 1.5; color: #94a3b8; margin-top: 0; margin-bottom: 16px;">
-      Debido a las restricciones bancarias de EE. UU. hacia Cuba, procesamos los pagos mediante esta pasarela internacional cifrada. Es la vía más rápida y 100% segura para pagar con Tarjeta (Visa/Mastercard), Apple Pay o Google Pay sin bloqueos.
-    </p>
-
-    <!-- Logos de Métodos Aceptados -->
-    <div style="display: flex; align-items: center; justify-content: space-around; background: #1e293b; padding: 12px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #334155;">
-      <!-- Visa -->
-      <svg style="height: 18px; fill: #ffffff;" viewBox="0 0 36 24" aria-label="Visa"><path d="M15.228 17.525h2.518l1.573-9.673h-2.518l-1.573 9.673zm11.758-9.458c-.512-.197-1.312-.41-2.312-.41-2.551 0-4.348 1.356-4.362 3.298-.023 1.433 1.282 2.23 2.258 2.707 1.002.488 1.338.802 1.338 1.237-.013.666-.8 0.973-1.538.973-1.026 0-1.573-.153-2.411-.524l-.338-.162-.366 2.274c.613.282 1.745.524 2.915.536 2.752 0 4.538-1.358 4.562-3.456.023-1.152-.686-2.03-2.186-2.744-.91-.462-1.465-.772-1.453-1.237.012-.418.477-.852 1.514-.852.873-.016 1.503.187 1.991.395l.24.111.388-2.14zm7.391-.215h-1.947c-.604 0-1.062.175-1.325.804l-3.754 8.869h2.646l.525-1.455h3.238l.307 1.455h2.33l-2.02-9.673zm-3.155 6.136l1.326-3.633.765 3.633h-2.091zM11.666 8.067L9.208 14.67l-.265-1.334c-.461-1.564-1.905-3.26-3.528-4.112l2.29 8.301h2.66l3.957-9.458h-2.656z"/></svg>
-      <!-- Mastercard -->
-      <svg style="height: 18px;" viewBox="0 0 36 24" aria-label="Mastercard"><path d="M13.67 12a7.48 7.48 0 012.83-5.89A7.5 7.5 0 1016.5 17.89 7.48 7.48 0 0113.67 12z" fill="#eb001b"/><path d="M22.33 12a7.48 7.48 0 01-2.83 5.89 7.5 7.5 0 100-11.78A7.48 7.48 0 0122.33 12z" fill="#f79e1b"/><path d="M18 6.11a7.48 7.48 0 00-2.83 5.89A7.48 7.48 0 0018 17.89a7.48 7.48 0 002.83-5.89A7.48 7.48 0 0018 6.11z" fill="#ff5f00"/></svg>
-      <!-- Apple Pay -->
-      <span style="font-weight: 700; font-size: 14px; color: #ffffff; display: flex; align-items: center; gap: 2px;">
-        <svg style="height: 14px; fill: #ffffff;" viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.72.13-9.62-1.92-14.72-6.14-3.32-2.78-7.22-7.48-11.71-14.1-6.85-10.08-12.18-21.2-16.01-33.37-3.83-12.17-5.75-23.86-5.75-35.07 0-14.34 3.52-26.23 10.56-35.67 7.03-9.43 15.82-14.28 26.36-14.54 4.72-.13 9.87 1.13 15.45 3.79 5.58 2.66 9.4 4.05 11.46 4.18 1.84 0 5.82-1.45 11.94-4.35 6.12-2.9 11.53-4.22 16.23-3.96 10.19.64 18.57 4.29 25.13 10.95 6.56 6.66 10.59 14.88 12.09 24.66-10.82 6.53-16.1 15.46-15.85 26.79.25 8.94 3.74 16.32 10.47 22.14 6.73 5.82 14.7 9.17 23.91 10.05-2.28 6.78-5.25 13.51-8.91 20.19zM119.22 31.81c0-6.93 2.53-13.55 7.59-19.86 5.06-6.31 11.45-10.22 19.17-11.73.53 6.93-1.89 13.62-7.26 20.07-5.37 6.45-11.76 10.38-19.17 11.79-.05-.09-.13-.18-.33-.27z"/></svg> Pay
-      </span>
-      <!-- Google Pay -->
-      <span style="font-weight: 700; font-size: 14px; color: #ffffff;">
-        <span style="color: #4285F4;">G</span><span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span> Pay
-      </span>
+    <!-- PASO 2: DATOS DEL DESTINATARIO EN CUBA -->
+    <div class="card">
+      <div class="card-title">📍 2. Datos de Entrega en Cuba</div>
+      <form id="orderForm">
+        <div class="form-group">
+          <label>Nombre Completo del Destinatario</label>
+          <input type="text" class="form-control" placeholder="Ej. Yusniel González Pérez" required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono de Contacto (Cuba)</label>
+          <input type="tel" class="form-control" placeholder="+53 51234567" required>
+        </div>
+        <div class="form-group">
+          <label>Provincia y Municipio</label>
+          <input type="text" class="form-control" placeholder="Ej. La Habana, Plaza de la Revolución" required>
+        </div>
+        <div class="form-group">
+          <label>Dirección Exacta</label>
+          <input type="text" class="form-control" placeholder="Calle, número, entre calles y reparto" required>
+        </div>
+      </form>
     </div>
 
-    <!-- Botón de Acción -->
-    <button style="width: 100%; background: #22c55e; color: #ffffff; border: none; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#16a34a'" onmouseout="this.style.background='#22c55e'">
-      PAGAR AHORA
-    </button>
+    <!-- PASO 3: MÉTODO DE PAGO Y CHECKOUT -->
+    <div class="payment-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+          💳 Pago Seguro con Tarjeta / Apple Pay
+        </h3>
+        <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.3);">
+          Internacional
+        </span>
+      </div>
 
-    <!-- Badge de Seguridad SSL 256-Bit -->
-    <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; color: #94a3b8; font-size: 12px;">
-      <svg style="width: 14px; height: 14px; fill: #10b981;" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-      </svg>
-      <span>Cifrado de Alta Seguridad <strong>SSL 256-Bit Security</strong></span>
-    </div>
-
-  </div>
-
-  <!-- SECCIÓN DE PREGUNTAS FRECUENTES (FAQ) -->
-  <div style="margin-top: 35px;">
-    
-    <!-- Título con color visible (Oscuro/Negro para resaltar en fondo blanco) -->
-    <h2 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 16px;">
-      Preguntas Frecuentes
-    </h2>
-
-    <!-- Primera Pregunta Frecuente (Opción 3) -->
-    <details style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 16px; cursor: pointer;" open>
-      <summary style="font-weight: 600; font-size: 15px; color: #ffffff; outline: none;">
-        🔒 ¿Por qué utilizamos este sistema de pago internacional?
-      </summary>
-      <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin-top: 12px; margin-bottom: 0; padding-top: 12px; border-top: 1px solid #1e293b;">
-        Debido a las regulaciones y restricciones financieras vigentes de EE. UU. sobre envíos a Cuba, los bancos tradicionales bloquean las transacciones directas. Utilizando nuestro sistema procesado internacionalmente, tu pago se completa en segundos de forma 100% cifrada con tu tarjeta de débito/crédito, Apple Pay o Google Pay.
+      <!-- Explicación Estratégica -->
+      <p style="font-size: 13.5px; line-height: 1.5; color: #94a3b8; margin-top: 0; margin-bottom: 16px;">
+        Debido a las restricciones bancarias de EE. UU. hacia Cuba, procesamos los pagos mediante esta pasarela internacional cifrada. Es la vía más rápida y 100% segura para pagar con Tarjeta (Visa/Mastercard), Apple Pay o Google Pay sin bloqueos.
       </p>
-    </details>
+
+      <!-- Logos Aceptados -->
+      <div style="display: flex; align-items: center; justify-content: space-around; background: #1e293b; padding: 12px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #334155;">
+        <!-- Visa -->
+        <svg style="height: 18px; fill: #ffffff;" viewBox="0 0 36 24"><path d="M15.228 17.525h2.518l1.573-9.673h-2.518l-1.573 9.673zm11.758-9.458c-.512-.197-1.312-.41-2.312-.41-2.551 0-4.348 1.356-4.362 3.298-.023 1.433 1.282 2.23 2.258 2.707 1.002.488 1.338.802 1.338 1.237-.013.666-.8 0.973-1.538.973-1.026 0-1.573-.153-2.411-.524l-.338-.162-.366 2.274c.613.282 1.745.524 2.915.536 2.752 0 4.538-1.358 4.562-3.456.023-1.152-.686-2.03-2.186-2.744-.91-.462-1.465-.772-1.453-1.237.012-.418.477-.852 1.514-.852.873-.016 1.503.187 1.991.395l.24.111.388-2.14zm7.391-.215h-1.947c-.604 0-1.062.175-1.325.804l-3.754 8.869h2.646l.525-1.455h3.238l.307 1.455h2.33l-2.02-9.673zm-3.155 6.136l1.326-3.633.765 3.633h-2.091zM11.666 8.067L9.208 14.67l-.265-1.334c-.461-1.564-1.905-3.26-3.528-4.112l2.29 8.301h2.66l3.957-9.458h-2.656z"/></svg>
+        <!-- Mastercard -->
+        <svg style="height: 18px;" viewBox="0 0 36 24"><path d="M13.67 12a7.48 7.48 0 012.83-5.89A7.5 7.5 0 1016.5 17.89 7.48 7.48 0 0113.67 12z" fill="#eb001b"/><path d="M22.33 12a7.48 7.48 0 01-2.83 5.89 7.5 7.5 0 100-11.78A7.48 7.48 0 0122.33 12z" fill="#f79e1b"/><path d="M18 6.11a7.48 7.48 0 00-2.83 5.89A7.48 7.48 0 0018 17.89a7.48 7.48 0 002.83-5.89A7.48 7.48 0 0018 6.11z" fill="#ff5f00"/></svg>
+        <!-- Apple Pay -->
+        <span style="font-weight: 700; font-size: 14px; color: #ffffff; display: flex; align-items: center; gap: 2px;">
+          <svg style="height: 14px; fill: #ffffff;" viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.72.13-9.62-1.92-14.72-6.14-3.32-2.78-7.22-7.48-11.71-14.1-6.85-10.08-12.18-21.2-16.01-33.37-3.83-12.17-5.75-23.86-5.75-35.07 0-14.34 3.52-26.23 10.56-35.67 7.03-9.43 15.82-14.28 26.36-14.54 4.72-.13 9.87 1.13 15.45 3.79 5.58 2.66 9.4 4.05 11.46 4.18 1.84 0 5.82-1.45 11.94-4.35 6.12-2.9 11.53-4.22 16.23-3.96 10.19.64 18.57 4.29 25.13 10.95 6.56 6.66 10.59 14.88 12.09 24.66-10.82 6.53-16.1 15.46-15.85 26.79.25 8.94 3.74 16.32 10.47 22.14 6.73 5.82 14.7 9.17 23.91 10.05-2.28 6.78-5.25 13.51-8.91 20.19zM119.22 31.81c0-6.93 2.53-13.55 7.59-19.86 5.06-6.31 11.45-10.22 19.17-11.73.53 6.93-1.89 13.62-7.26 20.07-5.37 6.45-11.76 10.38-19.17 11.79-.05-.09-.13-.18-.33-.27z"/></svg> Pay
+        </span>
+        <!-- Google Pay -->
+        <span style="font-weight: 700; font-size: 14px; color: #ffffff;">
+          <span style="color: #4285F4;">G</span><span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span> Pay
+        </span>
+      </div>
+
+      <button class="btn-pay">PAGAR $29.00 USD AHORA</button>
+
+      <!-- Badge de Seguridad SSL -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; color: #94a3b8; font-size: 12px;">
+        <svg style="width: 14px; height: 14px; fill: #10b981;" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+        </svg>
+        <span>Cifrado de Alta Seguridad <strong>SSL 256-Bit Security</strong></span>
+      </div>
+    </div>
+
+    <!-- SECCIÓN PREGUNTAS FRECUENTES -->
+    <div style="margin-top: 35px;">
+      <h2 class="faq-title">Preguntas Frecuentes</h2>
+
+      <details open>
+        <summary>🔒 ¿Por qué utilizamos este sistema de pago internacional?</summary>
+        <div class="faq-content">
+          Debido a las regulaciones y restricciones financieras vigentes de EE. UU. sobre envíos a Cuba, los bancos tradicionales bloquean las transacciones directas. Utilizando nuestro sistema procesado internacionalmente, tu pago se completa en segundos de forma 100% cifrada con tu tarjeta de débito/crédito, Apple Pay o Google Pay.
+        </div>
+      </details>
+    </div>
 
   </div>
 
-</div>
+</body>
+</html>
