@@ -3,309 +3,711 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katapulk - Envíos de Gas y Suministros a Cuba</title>
+  <title>Katapulk - Gas Licuado GLP a Domicilio</title>
   
-  <!-- FAVICON EN LA PESTAÑA DEL NAVEGADOR -->
+  <!-- Favicon para la pestaña del navegador -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    :root {
+      --primary-orange: #ff5500;
+      --primary-hover: #ff7700;
+      --fire-glow: rgba(255, 85, 0, 0.4);
+      --bg-body: #0a0c10;
+      --bg-card: #12161f;
+      --bg-card-alt: #181d29;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-color: rgba(255, 85, 0, 0.25);
+      --radius: 14px;
+      --whatsapp-green: #25d366;
+      --whatsapp-hover: #1da851;
     }
 
-    body {
-      background-color: #f8fafc;
-      color: #0f172a;
-      line-height: 1.5;
-      padding-bottom: 50px;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+    @keyframes firePulse {
+      0% { box-shadow: 0 0 15px rgba(255, 85, 0, 0.2), inset 0 0 10px rgba(255, 85, 0, 0.05); }
+      50% { box-shadow: 0 0 30px rgba(255, 100, 0, 0.45), inset 0 0 15px rgba(255, 85, 0, 0.15); }
+      100% { box-shadow: 0 0 15px rgba(255, 85, 0, 0.2), inset 0 0 10px rgba(255, 85, 0, 0.05); }
     }
 
-    /* HEADER */
-    header {
-      background: #0f172a;
-      color: #ffffff;
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    header { 
+      background: rgba(18, 22, 31, 0.95); 
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color); 
+      padding: 14px 24px; 
+      position: sticky; 
+      top: 0; 
+      z-index: 100;
     }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .header-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    
+    .brand-logo-text {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
       color: #ffffff;
       text-decoration: none;
-    }
-
-    .badge-top {
-      background: #22c55e;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
-
-    /* CONTENEDOR PRINCIPAL */
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 0 16px;
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      color: #0f172a;
+      gap: 6px;
+    }
+    .brand-logo-text span {
+      background: linear-gradient(135deg, #ff8800, #ff2200);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    /* PRODUCTO BALITAS DE GAS */
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 20px;
+    .nav-actions { display: flex; gap: 12px; align-items: center; font-size: 14px; flex-wrap: wrap; }
+    
+    .btn-location { 
+      background: rgba(255, 85, 0, 0.1); 
+      color: var(--primary-orange); 
+      border: 1px solid rgba(255, 85, 0, 0.4); 
+      padding: 8px 14px; 
+      border-radius: 20px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px;
+      transition: all 0.3s;
+    }
+    .btn-location:hover { background: rgba(255, 85, 0, 0.2); box-shadow: 0 0 12px var(--fire-glow); }
+
+    .btn-ws-header {
+      background: var(--whatsapp-green);
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
       align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3);
+      transition: all 0.3s;
+    }
+    .btn-ws-header:hover { background: var(--whatsapp-hover); transform: translateY(-1px); }
+
+    .btn-auth { 
+      background: linear-gradient(135deg, #ff5500, #ff2200); 
+      color: white; 
+      border: none; 
+      padding: 9px 18px; 
+      border-radius: var(--radius); 
+      cursor: pointer; 
+      font-weight: 700; 
+      box-shadow: 0 4px 15px var(--fire-glow);
+      transition: all 0.3s ease;
     }
 
-    @media (max-width: 600px) {
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
+    section { padding: 48px 16px; width: 100%; }
+    .section-alt { background-color: var(--bg-card-alt); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+    .inner-container { max-width: 1200px; margin: 0 auto; }
+
+    .hero { text-align: center; padding-top: 40px; padding-bottom: 20px; }
+    .hero-badge { display: inline-block; background: rgba(255, 85, 0, 0.15); color: var(--primary-orange); border: 1px solid rgba(255, 85, 0, 0.4); padding: 6px 16px; border-radius: 30px; font-weight: 700; font-size: 14px; margin-bottom: 16px; letter-spacing: 0.5px; }
+    .hero h1 { font-size: 38px; font-weight: 900; line-height: 1.2; margin-bottom: 12px; color: #fff; }
+    .hero h1 span { color: var(--primary-orange); text-shadow: 0 0 15px var(--fire-glow); }
+    .hero p { font-size: 18px; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+
+    .trust-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .trust-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius); text-align: center; transition: all 0.3s; }
+    .trust-item:hover { animation: firePulse 2s infinite; border-color: var(--primary-orange); transform: translateY(-3px); }
+    .trust-icon { font-size: 32px; margin-bottom: 8px; }
+    .trust-title { font-weight: 700; font-size: 16px; color: #fff; }
+    .trust-desc { font-size: 13px; color: var(--text-muted); }
+
+    .product-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+    @media (min-width: 850px) { .product-grid { grid-template-columns: 1fr 1fr; } }
+
+    .card { 
+      background: var(--bg-card); 
+      padding: 32px; 
+      border-radius: var(--radius); 
+      border: 1px solid var(--border-color);
+      animation: firePulse 3s infinite;
+      transition: all 0.3s;
     }
 
-    .product-image {
+    .gallery { display: flex; flex-direction: column; gap: 16px; align-items: center; }
+    .main-img { width: 100%; max-height: 400px; object-fit: contain; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.08); padding: 12px; background: rgba(0,0,0,0.4); }
+    .thumbnails { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .thumb { width: 75px; height: 75px; border: 2px solid rgba(255, 85, 0, 0.2); border-radius: 10px; cursor: pointer; object-fit: cover; padding: 2px; transition: all 0.2s; background: rgba(0,0,0,0.4); }
+    .thumb.active, .thumb:hover { border-color: var(--primary-orange); box-shadow: 0 0 12px var(--fire-glow); transform: scale(1.05); }
+
+    .badge-stock { background: rgba(34, 197, 94, 0.15); color: #4ade80; font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(34, 197, 94, 0.3); display: inline-block; }
+    .price-tag { font-size: 40px; font-weight: 900; margin: 12px 0 4px; color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.2); }
+    .unit-price { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+
+    .min-order-box {
+      background: rgba(255, 85, 0, 0.12);
+      border-left: 4px solid var(--primary-orange);
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    .min-order-box strong { color: var(--primary-orange); display: block; margin-bottom: 2px; }
+
+    .qty-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .qty-picker { display: flex; align-items: center; border: 1px solid var(--border-color); border-radius: var(--radius); overflow: hidden; background: rgba(0,0,0,0.3); }
+    .qty-picker button { border: none; background: rgba(255, 85, 0, 0.15); color: #fff; width: 44px; height: 50px; cursor: pointer; font-size: 22px; font-weight: bold; transition: background 0.2s; }
+    .qty-picker button:hover { background: var(--primary-orange); }
+    .qty-picker span { width: 48px; text-align: center; font-weight: 700; font-size: 18px; }
+
+    .payment-selection { margin-top: 20px; }
+    .payment-select-label { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #fff; display: block; }
+    .payment-dropdown {
       width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 12px;
-      background-color: #e2e8f0;
-    }
-
-    .product-info h3 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .product-info p {
-      color: #64748b;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    .price-tag {
-      font-size: 24px;
-      font-weight: 800;
-      color: #0f172a;
-    }
-
-    /* FORMULARIO */
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #334155;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      padding: 14px;
+      background: #0a0c10;
+      border: 1px solid var(--primary-orange);
+      color: #fff;
+      border-radius: var(--radius);
       font-size: 15px;
-      background: #f8fafc;
-    }
-
-    /* MÓDULO DE PAGO */
-    .payment-card {
-      background: #0f172a;
-      border: 1px solid #1e293b;
-      border-radius: 16px;
-      padding: 24px;
-      color: #f8fafc;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-pay {
-      width: 100%;
-      background: #22c55e;
-      color: #ffffff;
-      border: none;
-      padding: 16px;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 10px;
-    }
-
-    .btn-pay:hover {
-      background: #16a34a;
-    }
-
-    /* PREGUNTAS FRECUENTES */
-    .faq-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 16px;
-    }
-
-    details {
-      background: #0f172a;
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 16px;
-      cursor: pointer;
-      color: #ffffff;
-    }
-
-    summary {
       font-weight: 600;
-      font-size: 15px;
       outline: none;
+      cursor: pointer;
     }
+    
+    .account-details-card {
+      margin-top: 16px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px dashed var(--primary-orange);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: none;
+    }
+    .account-details-card.active { display: block; }
+    .account-title { font-size: 15px; font-weight: 800; color: var(--primary-orange); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .account-field { font-size: 13px; margin-bottom: 6px; color: #e5e7eb; word-break: break-all; }
+    .account-field span { font-weight: bold; color: var(--text-muted); }
 
-    .faq-content {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #cbd5e1;
+    .upload-box {
       margin-top: 12px;
       padding-top: 12px;
-      border-top: 1px solid #1e293b;
+      border-top: 1px solid rgba(255, 85, 0, 0.2);
     }
+    .upload-box label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .file-input {
+      width: 100%;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .file-input::file-selector-button {
+      background: var(--primary-orange);
+      border: none;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .shipping-alert { background: rgba(255, 170, 0, 0.08); border: 1px solid rgba(255, 170, 0, 0.3); padding: 18px; border-radius: var(--radius); font-size: 14px; margin-top: 24px; color: #fde047; }
+    .shipping-alert strong { color: #facc15; }
+
+    .section-title { text-align: center; font-size: 28px; font-weight: 800; margin-bottom: 32px; color: #fff; }
+    .section-title span { color: var(--primary-orange); }
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .step-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 32px 24px; text-align: center; transition: all 0.3s; }
+    .step-card:hover { border-color: var(--primary-orange); box-shadow: 0 0 20px var(--fire-glow); transform: translateY(-4px); }
+    .step-number { width: 44px; height: 44px; background: linear-gradient(135deg, #ff5500, #ff2200); color: #fff; font-weight: 900; font-size: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 0 12px var(--fire-glow); }
+    .step-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .step-desc { font-size: 14px; color: var(--text-muted); }
+
+    .faq-grid { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); overflow: hidden; }
+    .faq-header { width: 100%; text-align: left; padding: 18px 24px; background: none; border: none; font-weight: 700; font-size: 16px; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-header:hover { color: var(--primary-orange); }
+    .faq-content { display: none; padding: 0 24px 20px; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .faq-content.open { display: block; }
+
+    footer { background: #06070a; border-top: 1px solid var(--border-color); padding: 48px 24px 24px; color: var(--text-muted); font-size: 14px; }
+    .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; margin-bottom: 40px; }
+    .footer-col h4 { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--primary-orange); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 13px; }
+
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 1000; justify-content: center; align-items: center; padding: 16px; }
+    .modal-overlay.active { display: flex; }
+    .modal-content { 
+      background: var(--bg-card); 
+      padding: 32px; 
+      border-radius: var(--radius); 
+      width: 100%; 
+      max-width: 480px; 
+      position: relative; 
+      border: 1px solid rgba(255, 85, 0, 0.5);
+      animation: firePulse 2.5s infinite;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-close { position: absolute; top: 16px; right: 16px; border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
+    
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+    .form-group input, .form-group select, .form-group textarea { 
+      width: 100%; 
+      padding: 10px 12px; 
+      background: rgba(0,0,0,0.5); 
+      border: 1px solid var(--border-color); 
+      color: #fff; 
+      border-radius: var(--radius); 
+      outline: none; 
+      transition: border-color 0.3s;
+      font-size: 14px;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-orange); box-shadow: 0 0 10px var(--fire-glow); }
+    .btn-submit { width: 100%; background: linear-gradient(135deg, #ff5500, #ff2200); color: white; border: none; padding: 14px; border-radius: var(--radius); font-weight: 700; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 15px var(--fire-glow); }
   </style>
 </head>
 <body>
 
-  <!-- HEADER DE LA PÁGINA -->
   <header>
-    <a href="#" class="logo">
-      🔥 Katapulk
-    </a>
-    <span class="badge-top">Envíos Activos a Cuba 🚚</span>
+    <div class="header-container">
+      <a href="#" class="brand-logo-text">
+        🔥 katapulk<span>.</span>
+      </a>
+
+      <div class="nav-actions">
+        <button class="btn-location" onclick="openModal('modalLocation')">
+          📍 <span id="currentLocDisplay">Envíos seguros a toda Cuba</span>
+        </button>
+        <a id="btnHeaderWs" href="#" target="_blank" class="btn-ws-header">
+          💬 Atención 24/7 WhatsApp
+        </a>
+        <button class="btn-auth" onclick="openModal('modalAuth')">Entrar</button>
+      </div>
+    </div>
   </header>
 
-  <div class="container">
+  <main>
+    <section class="hero inner-container">
+      <span class="hero-badge">🔥 Servicio Oficial de Gas Licuado</span>
+      <h1>Tu cocina nunca se detiene:<br><span>Gas Licuado directo a tu puerta</span></h1>
+      <p>Entregas rápidas y certificadas. Selecciona tu provincia, elige tu método de pago y recibe tus balitas sin demoras.</p>
+    </section>
 
-    <!-- PASO 1: SELECCIÓN DEL PRODUCTO (BALITAS DE GAS GLP) -->
-    <div class="card">
-      <div class="card-title">📦 1. Producto Seleccionado</div>
+    <section class="inner-container">
+      <div class="trust-bar">
+        <div class="trust-item">
+          <div class="trust-icon">⚡</div>
+          <div class="trust-title">Entrega Garantizada</div>
+          <div class="trust-desc">Llegada estimada de 24h a 72h</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🛡️</div>
+          <div class="trust-title">Pagos Directos</div>
+          <div class="trust-desc">Tarjetas, Apple Pay, Google Pay o USD Clásica</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🔒</div>
+          <div class="trust-title">Cilindros Certificados</div>
+          <div class="trust-desc">Envases sellados bajo normas de seguridad</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">💬</div>
+          <div class="trust-title">Soporte Continuo</div>
+          <div class="trust-desc">Asistencia 24h por WhatsApp</div>
+        </div>
+      </div>
+
       <div class="product-grid">
-        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=500&q=80" alt="Cilindro de Gas GLP" class="product-image">
-        <div class="product-info">
-          <h3>Cilindro / Balita de Gas GLP (10 kg)</h3>
-          <p>Entrega prioritaria a domicilio en Cuba. Recarga e instalación garantizada.</p>
-          <div class="price-tag">$29.00 USD <span style="font-size: 14px; color: #64748b; font-weight: 400;">/ unidad</span></div>
+        <div class="card gallery">
+          <img id="mainImage" class="main-img" src="https://i.ibb.co/3yGfVLXz/balita1.jpg" alt="Gas Licuado 10kg">
+          
+          <div class="thumbnails">
+            <img class="thumb active" src="https://i.ibb.co/3yGfVLXz/balita1.jpg" onclick="changeImage(this.src, this)" alt="Cilindro Imagen 1">
+            <img class="thumb" src="https://i.ibb.co/C5Kzw4Xt/balita2.jpg" onclick="changeImage(this.src, this)" alt="Cilindro Imagen 2">
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="badge-stock">● Stock Disponible para Entrega</span>
+          <h2 style="margin-top: 12px; font-size: 26px; color: #fff;">Gas Licuado GLP (10 kg / 22 lb)</h2>
+          <p style="font-size: 13px; color: var(--text-muted);">Vendido por Mercado Único · Distribución Nacional</p>
+
+          <div class="price-tag" id="totalPriceDisplay">$58.00 USD</div>
+          <div class="unit-price">($29.00 USD por unidad)</div>
+
+          <div class="min-order-box">
+            <strong>⚠️ Pedido mínimo requerido: 2 cilindros</strong>
+            Para garantizar la viabilidad del transporte especializado de carga peligrosa a domicilio y mantener la tarifa de envío más accesible posible, la orden mínima es de 2 unidades.
+          </div>
+
+          <div class="qty-row">
+            <span style="font-weight: 700; font-size: 14px;">Cantidad:</span>
+            <div class="qty-picker">
+              <button onclick="updateQty(-1)">-</button>
+              <span id="qty">2</span>
+              <button onclick="updateQty(1)">+</button>
+            </div>
+          </div>
+
+          <div class="payment-selection">
+            <label class="payment-select-label">Selecciona el Método de Pago:</label>
+            <select class="payment-dropdown" id="paymentMethodSelect" onchange="seleccionarMetodoPago()">
+              <option value="">-- Elige una opción de pago --</option>
+              <option value="pasarela">💳 Tarjeta / Apple Pay / Google Pay / ACH</option>
+              <option value="clasica">💳 USD Tarjeta Clásica</option>
+            </select>
+
+            <!-- Pasarela Directa Onramper -->
+            <div class="account-details-card" id="cardPasarela">
+              <div class="account-title">💳 Pasarela de Pago Directa (EE.UU. / Internacional)</div>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Completa tu pago usando Tarjeta de Crédito/Débito, Apple Pay, Google Pay o ACH.</p>
+              
+              <div style="display: flex; justify-content: center; width: 100%; padding: 4px 0;">
+                <iframe
+                  src="https://buy.onramper.com/?defaultCrypto=usdt_bsc&wallets=usdt_bsc:0x2391c04174853D8FfE338a5061e0aE02490aB746&defaultFiat=usd&isFixedFiat=false"
+                  title="Pagar con Tarjeta, Apple Pay o Banco (EE.UU.)"
+                  height="620px"
+                  width="100%"
+                  style="border: none; max-width: 480px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3);"
+                  allow="accelerometer; autoplay; camera; gyroscope; payment"
+                >
+                </iframe>
+              </div>
+            </div>
+
+            <!-- Tarjeta Clásica -->
+            <div class="account-details-card" id="cardClasica">
+              <div class="account-title">💳 Datos USD Tarjeta Clásica</div>
+              <div class="account-field"><span>Número de Tarjeta:</span> <strong id="valClasicaNum">A consultar vía WhatsApp</strong></div>
+              <div class="account-field"><span>Nombre Titular:</span> <strong id="valClasicaName">A consultar vía WhatsApp</strong></div>
+              
+              <div class="upload-box">
+                <label>Subir captura de pantalla del pago:</label>
+                <input type="file" accept="image/*" class="file-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="shipping-alert">
+            <strong>⚠️ Requisito obligatorio de entrega:</strong><br>
+            El destinatario debe entregar los cilindros vacíos de 10 kg (22 lb) en buen estado al momento del intercambio.
+            <br><br>
+            <small>🚚 Destino asignado: <strong id="shipDestination">Envíos a toda la Isla</strong> (Tiempo de llegada estimado: <strong>24h a 72h</strong>).</small>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- PASO 2: DATOS DEL DESTINATARIO EN CUBA -->
-    <div class="card">
-      <div class="card-title">📍 2. Datos de Entrega en Cuba</div>
-      <form id="orderForm">
-        <div class="form-group">
-          <label>Nombre Completo del Destinatario</label>
-          <input type="text" class="form-control" placeholder="Ej. Yusniel González Pérez" required>
+    <section class="section-alt">
+      <div class="inner-container">
+        <h2 class="section-title">¿Cómo funciona el <span>servicio</span>?</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Seleccionas tu Pago</h3>
+            <p class="step-desc">Eliges tu cantidad (mínimo 2) y pagas directamente con Tarjeta, Apple Pay, Google Pay o Tarjeta Clásica.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3 class="step-title">Confirmas por WhatsApp</h3>
+            <p class="step-desc">Envías tu número de confirmación o captura junto a la dirección exacta de entrega a nuestro equipo 24/7.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Recibes en 24h a 72h</h3>
+            <p class="step-desc">Entregas tus balitas vacías al repartidor y recibes tus nuevos cilindros sellados en la puerta de tu hogar.</p>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Teléfono de Contacto (Cuba)</label>
-          <input type="tel" class="form-control" placeholder="+53 51234567" required>
-        </div>
-        <div class="form-group">
-          <label>Provincia y Municipio</label>
-          <input type="text" class="form-control" placeholder="Ej. La Habana, Plaza de la Revolución" required>
-        </div>
-        <div class="form-group">
-          <label>Dirección Exacta</label>
-          <input type="text" class="form-control" placeholder="Calle, número, entre calles y reparto" required>
-        </div>
-      </form>
-    </div>
-
-    <!-- PASO 3: MÉTODO DE PAGO Y CHECKOUT -->
-    <div class="payment-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-          💳 Pago Seguro con Tarjeta / Apple Pay
-        </h3>
-        <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.3);">
-          Internacional
-        </span>
       </div>
+    </section>
 
-      <!-- Explicación Estratégica -->
-      <p style="font-size: 13.5px; line-height: 1.5; color: #94a3b8; margin-top: 0; margin-bottom: 16px;">
-        Debido a las restricciones bancarias de EE. UU. hacia Cuba, procesamos los pagos mediante esta pasarela internacional cifrada. Es la vía más rápida y 100% segura para pagar con Tarjeta (Visa/Mastercard), Apple Pay o Google Pay sin bloqueos.
-      </p>
-
-      <!-- Logos Aceptados -->
-      <div style="display: flex; align-items: center; justify-content: space-around; background: #1e293b; padding: 12px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #334155;">
-        <!-- Visa -->
-        <svg style="height: 18px; fill: #ffffff;" viewBox="0 0 36 24"><path d="M15.228 17.525h2.518l1.573-9.673h-2.518l-1.573 9.673zm11.758-9.458c-.512-.197-1.312-.41-2.312-.41-2.551 0-4.348 1.356-4.362 3.298-.023 1.433 1.282 2.23 2.258 2.707 1.002.488 1.338.802 1.338 1.237-.013.666-.8 0.973-1.538.973-1.026 0-1.573-.153-2.411-.524l-.338-.162-.366 2.274c.613.282 1.745.524 2.915.536 2.752 0 4.538-1.358 4.562-3.456.023-1.152-.686-2.03-2.186-2.744-.91-.462-1.465-.772-1.453-1.237.012-.418.477-.852 1.514-.852.873-.016 1.503.187 1.991.395l.24.111.388-2.14zm7.391-.215h-1.947c-.604 0-1.062.175-1.325.804l-3.754 8.869h2.646l.525-1.455h3.238l.307 1.455h2.33l-2.02-9.673zm-3.155 6.136l1.326-3.633.765 3.633h-2.091zM11.666 8.067L9.208 14.67l-.265-1.334c-.461-1.564-1.905-3.26-3.528-4.112l2.29 8.301h2.66l3.957-9.458h-2.656z"/></svg>
-        <!-- Mastercard -->
-        <svg style="height: 18px;" viewBox="0 0 36 24"><path d="M13.67 12a7.48 7.48 0 012.83-5.89A7.5 7.5 0 1016.5 17.89 7.48 7.48 0 0113.67 12z" fill="#eb001b"/><path d="M22.33 12a7.48 7.48 0 01-2.83 5.89 7.5 7.5 0 100-11.78A7.48 7.48 0 0122.33 12z" fill="#f79e1b"/><path d="M18 6.11a7.48 7.48 0 00-2.83 5.89A7.48 7.48 0 0018 17.89a7.48 7.48 0 002.83-5.89A7.48 7.48 0 0018 6.11z" fill="#ff5f00"/></svg>
-        <!-- Apple Pay -->
-        <span style="font-weight: 700; font-size: 14px; color: #ffffff; display: flex; align-items: center; gap: 2px;">
-          <svg style="height: 14px; fill: #ffffff;" viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.72.13-9.62-1.92-14.72-6.14-3.32-2.78-7.22-7.48-11.71-14.1-6.85-10.08-12.18-21.2-16.01-33.37-3.83-12.17-5.75-23.86-5.75-35.07 0-14.34 3.52-26.23 10.56-35.67 7.03-9.43 15.82-14.28 26.36-14.54 4.72-.13 9.87 1.13 15.45 3.79 5.58 2.66 9.4 4.05 11.46 4.18 1.84 0 5.82-1.45 11.94-4.35 6.12-2.9 11.53-4.22 16.23-3.96 10.19.64 18.57 4.29 25.13 10.95 6.56 6.66 10.59 14.88 12.09 24.66-10.82 6.53-16.1 15.46-15.85 26.79.25 8.94 3.74 16.32 10.47 22.14 6.73 5.82 14.7 9.17 23.91 10.05-2.28 6.78-5.25 13.51-8.91 20.19zM119.22 31.81c0-6.93 2.53-13.55 7.59-19.86 5.06-6.31 11.45-10.22 19.17-11.73.53 6.93-1.89 13.62-7.26 20.07-5.37 6.45-11.76 10.38-19.17 11.79-.05-.09-.13-.18-.33-.27z"/></svg> Pay
-        </span>
-        <!-- Google Pay -->
-        <span style="font-weight: 700; font-size: 14px; color: #ffffff;">
-          <span style="color: #4285F4;">G</span><span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span> Pay
-        </span>
-      </div>
-
-      <button class="btn-pay">PAGAR $29.00 USD AHORA</button>
-
-      <!-- Badge de Seguridad SSL -->
-      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; color: #94a3b8; font-size: 12px;">
-        <svg style="width: 14px; height: 14px; fill: #10b981;" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-        </svg>
-        <span>Cifrado de Alta Seguridad <strong>SSL 256-Bit Security</strong></span>
-      </div>
-    </div>
-
-    <!-- SECCIÓN PREGUNTAS FRECUENTES -->
-    <div style="margin-top: 35px;">
-      <h2 class="faq-title">Preguntas Frecuentes</h2>
-
-      <details open>
-        <summary>🔒 ¿Por qué utilizamos este sistema de pago internacional?</summary>
-        <div class="faq-content">
-          Debido a las regulaciones y restricciones financieras vigentes de EE. UU. sobre envíos a Cuba, los bancos tradicionales bloquean las transacciones directas. Utilizando nuestro sistema procesado internacionalmente, tu pago se completa en segundos de forma 100% cifrada con tu tarjeta de débito/crédito, Apple Pay o Google Pay.
+    <section class="inner-container">
+      <h2 class="section-title">Preguntas <span>Frecuentes</span></h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFaq(this)">¿Por qué el mínimo de compra es de 2 cilindros? <span>+</span></button>
+          <div class="faq-content">
+            El transporte de cilindros de gas requiere logística especializada y strictly medidas de seguridad. Requerir un mínimo de 2 unidades nos permite optimizar las rutas de distribución y ofrecer la tarifa de envío a domicilio más baja posible a nuestros clientes.
+          </div>
         </div>
-      </details>
-    </div>
 
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFaq(this)">¿Cuánto tarda en llegar el pedido? <span>+</span></button>
+          <div class="faq-content">
+            El tiempo de entrega estimado es de <strong>24 a 72 horas hábiles</strong> tras la confirmación de su pago vía WhatsApp, según la provincia y el municipio seleccionado.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFaq(this)">¿Qué condiciones deben cumplir las balitas vacías? <span>+</span></button>
+          <div class="faq-content">
+            Las balitas entregadas deben ser de 10 kg / 22 lb, conservar su anilla y no presentar deformaciones severas, fisuras ni óxido avanzado que comprometa la seguridad.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4 style="color: var(--primary-orange);">katapulk</h4>
+        <p style="font-size: 13px;">Plataforma líder en envíos y provisiones para la familia en Cuba. Calidad, garantía y rapidez en cada entrega.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Enlaces Rápidos</h4>
+        <ul>
+          <li><a href="#" onclick="openModal('modalLocation')">Seleccionar Provincia</a></li>
+          <li><a href="#" onclick="openModal('modalAuth')">Registro de Cliente</a></li>
+          <li><a id="btnFooterWs" href="#" target="_blank">Atención 24/7 por WhatsApp</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Términos y Seguridad</h4>
+        <ul>
+          <li><a href="#">Política de Privacidad</a></li>
+          <li><a href="#">Términos del Servicio</a></li>
+          <li><a href="#">Garantía de Cilindros</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Soporte Técnico</h4>
+        <p style="font-size: 13px;">Atención activa todos los días 24H.</p>
+        <p style="color: #fff; font-weight: 700; margin-top: 8px;">+53 53632861</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Katapulk / Mercado Único. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="modalLocation">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modalLocation')">✕</button>
+      <h2 style="margin-bottom: 20px; color: var(--primary-orange);">Selecciona tu Ubicación</h2>
+      <div class="form-group">
+        <label>Provincia</label>
+        <select id="locProvincia" onchange="cargarMunicipios('locProvincia', 'locMunicipio')">
+          <option value="">-- Selecciona una Provincia --</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Municipio</label>
+        <select id="locMunicipio">
+          <option value="">-- Selecciona primero una Provincia --</option>
+        </select>
+      </div>
+      <button class="btn-submit" onclick="guardarUbicacion()">Confirmar Ubicación</button>
+    </div>
   </div>
 
+  <div class="modal-overlay" id="modalAuth">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modalAuth')">✕</button>
+      <h2 style="margin-bottom: 20px; color: var(--primary-orange);">Crear Cuenta / Registro</h2>
+      
+      <form action="https://formspree.io/f/axietumor@gmail.com" method="POST" onsubmit="registrarUsuario(event)">
+        <div class="form-group">
+          <label>Nombre del Comprador</label>
+          <input type="text" name="NombreComprador" required placeholder="Tu nombre completo">
+        </div>
+
+        <div class="form-group">
+          <label>Correo Electrónico / Teléfono de Contacto</label>
+          <input type="text" name="Contacto" required placeholder="ejemplo@correo.com o +53...">
+        </div>
+
+        <div class="form-group">
+          <label>Nombre de la Persona que Recibe en Cuba</label>
+          <input type="text" name="NombreDestinatarioCuba" required placeholder="Nombre completo del destinatario">
+        </div>
+
+        <div class="form-group">
+          <label>Provincia de Entrega</label>
+          <select id="regProvincia" name="ProvinciaEntrega" required onchange="cargarMunicipios('regProvincia', 'regMunicipio')">
+            <option value="">-- Selecciona una Provincia --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Municipio de Entrega</label>
+          <select id="regMunicipio" name="MunicipioEntrega" required>
+            <option value="">-- Selecciona primero una Provincia --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Dirección Exacta en Cuba</label>
+          <textarea name="DireccionExacta" rows="2" required placeholder="Calle, entre calles, No. de casa, reparto..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Registrarme y Guardar Datos</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const NUMERO_WHATSAPP = "5353632861";
+
+    // TARJETA CLÁSICA
+    const CLASICA_NUMERO = "A consultar vía WhatsApp";
+    const CLASICA_NAME = "A consultar vía WhatsApp";
+
+    const PRECIO_UNITARIO = 29;
+    let cantidad = 2;
+    let provinciaActual = "Envíos a toda la Isla";
+    let municipioActual = "";
+
+    window.onload = function() {
+      document.getElementById('valClasicaNum').innerText = CLASICA_NUMERO;
+      document.getElementById('valClasicaName').innerText = CLASICA_NAME;
+
+      poblarProvincias('locProvincia');
+      poblarProvincias('regProvincia');
+      actualizarEnlacesWhatsApp();
+    };
+
+    function actualizarEnlacesWhatsApp() {
+      const textoMensaje = `¡Hola! Quisiera información y ordenar balitas de gas.%0A- Cantidad de Cilindros: ${cantidad}%0A- Provincia: ${provinciaActual}%0A- Municipio: ${municipioActual || 'Por definir'}`;
+      const wsUrl = `https://wa.me/${NUMERO_WHATSAPP}?text=${textoMensaje}`;
+      
+      document.getElementById('btnHeaderWs').href = wsUrl;
+      document.getElementById('btnFooterWs').href = wsUrl;
+    }
+
+    function changeImage(src, el) {
+      document.getElementById('mainImage').src = src;
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function updateQty(val) {
+      cantidad = Math.max(2, cantidad + val);
+      document.getElementById('qty').innerText = cantidad;
+      document.getElementById('totalPriceDisplay').innerText = `$${(cantidad * PRECIO_UNITARIO).toFixed(2)} USD`;
+      actualizarEnlacesWhatsApp();
+    }
+
+    function seleccionarMetodoPago() {
+      const metodo = document.getElementById('paymentMethodSelect').value;
+      const cardPasarela = document.getElementById('cardPasarela');
+      const cardClasica = document.getElementById('cardClasica');
+
+      cardPasarela.classList.remove('active');
+      cardClasica.classList.remove('active');
+
+      if (metodo === 'pasarela') {
+        cardPasarela.classList.add('active');
+      } else if (metodo === 'clasica') {
+        cardClasica.classList.add('active');
+      }
+    }
+
+    const cubaData = {
+      "Pinar del Río": ["Pinar del Río", "Consolación del Sur", "Viñales", "San Juan y Martínez", "San Luis", "Guane", "Mantua", "Minas de Matahambre", "La Palma", "Los Palacios", "Sandino"],
+      "Artemisa": ["Artemisa", "Bauta", "Caimito", "Guanajay", "Mariel", "San Antonio de los Baños", "Bahía Honda", "San Cristóbal", "Candelaria", "Alquízar", "Güira de Melena"],
+      "La Habana": ["Arroyo Naranjo", "Boyeros", "Centro Habana", "Cerro", "Cotorro", "Diez de Octubre", "Guanabacoa", "La Habana del Este", "La Habana Vieja", "La Lisa", "Marianao", "Playa", "Plaza de la Revolución", "Regla", "San Miguel del Padrón"],
+      "Mayabeque": ["San José de las Lajas", "Batabanó", "Bauta", "Bejucal", "Güines", "Jaruco", "Madruga", "Melena del Sur", "Nueva Paz", "Quivicán", "San Nicolás", "Santa Cruz del Norte"],
+      "Matanzas": ["Matanzas", "Cárdenas", "Varadero", "Colón", "Jovellanos", "Jagüey Grande", "Martí", "Pedro Betancourt", "Perico", "Union de Reyes", "Calimete", "Los Arabos", "Ciénaga de Zapata"],
+      "Cienfuegos": ["Cienfuegos", "Abreus", "Aguada de Pasajeros", "Cruces", "Cumanayagua", "Lajas", "Palmira", "Rodas"],
+      "Villa Clara": ["Santa Clara", "Caibarién", "Camajuaní", "Cifuentes", "Encrucijada", "Manicaragua", "Placetas", "Quemado de Güines", "Ranchuelo", "San Juan de los Yeras", "Santo Domingo", "Sagua la Grande", "Remedios"],
+      "Sancti Spíritus": ["Sancti Spíritus", "Cabaiguán", "Fomento", "Jatibonico", "La Sierpe", "Taguasco", "Trinidad", "Yaguajay"],
+      "Ciego de Ávila": ["Ciego de Ávila", "Baraguá", "Bolivia", "Chambas", "Ciro Redondo", "Florencia", "Majagua", "Morón", "Primero de Enero", "Venezuela"],
+      "Camagüey": ["Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guáimaro", "Jimaguayú", "Minas", "Najasa", "Nuevitas", "Ovispo", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas", "Vertientes"],
+      "Las Tunas": ["Las Tunas", "Amancio", "Colombia", "Jesús Menéndez", "Jobabo", "Majibacoa", "Puerto Padre", "San Antonio"],
+      "Holguín": ["Holguín", "Antilla", "Báguanos", "Banes", "Cacocum", "Calixto García", "Cueto", "Frank País", "Gibara", "Mayarí", "Moa", "Rafael Freyre", "Sagua de Tánamo", "Urbano Noris"],
+      "Granma": ["Bayamo", "Manzanillo", "Bartolomé Masó", "Buey Arriba", "Campechuela", "Cauto Cristo", "Guisa", "Jiguaní", "Media Luna", "Niquero", "Pilón", "Río Cauto", "Yara"],
+      "Santiago de Cuba": ["Santiago de Cuba", "Contramaestre", "Guamá", "Mella", "Palma Soriano", "San Luis", "Segundo Frente", "Tercer Frente", "Songo - La Maya"],
+      "Guantánamo": ["Guantánamo", "Baracoa", "Caimanera", "El Salvador", "Imías", "Maisí", "Manuel Tames", "Niceto Pérez", "San Antonio del Sur", "Yateras"],
+      "Isla de la Juventud": ["Isla de la Juventud"]
+    };
+
+    function poblarProvincias(selectId) {
+      const select = document.getElementById(selectId);
+      Object.keys(cubaData).forEach(provincia => {
+        const opt = document.createElement('option');
+        opt.value = provincia;
+        opt.innerText = provincia;
+        select.appendChild(opt);
+      });
+    }
+
+    function cargarMunicipios(provSelectId, munSelectId) {
+      const provSelect = document.getElementById(provSelectId);
+      const munSelect = document.getElementById(munSelectId);
+      const prov = provSelect.value;
+
+      munSelect.innerHTML = '<option value="">-- Selecciona un Municipio --</option>';
+
+      if (prov && cubaData[prov]) {
+        cubaData[prov].forEach(mun => {
+          const opt = document.createElement('option');
+          opt.value = mun;
+          opt.innerText = mun;
+          munSelect.appendChild(opt);
+        });
+      }
+    }
+
+    function guardarUbicacion() {
+      const prov = document.getElementById('locProvincia').value;
+      const mun = document.getElementById('locMunicipio').value;
+
+      if (!prov || !mun) {
+        alert('Por favor selecciona provincia y municipio');
+        return;
+      }
+
+      provinciaActual = prov;
+      municipioActual = mun;
+
+      document.getElementById('currentLocDisplay').innerText = `${mun}, ${prov}`;
+      document.getElementById('shipDestination').innerText = `${mun}, ${prov}`;
+
+      actualizarEnlacesWhatsApp();
+      closeModal('modalLocation');
+    }
+
+    function registrarUsuario(e) {
+      // Formspree enviará el formulario normalmente
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const isExpanded = content.classList.contains('open');
+
+      document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('open'));
+      document.querySelectorAll('.faq-header span').forEach(s => s.innerText = '+');
+
+      if (!isExpanded) {
+        content.classList.add('open');
+        btn.querySelector('span').innerText = '-';
+      }
+    }
+  </script>
 </body>
 </html>
