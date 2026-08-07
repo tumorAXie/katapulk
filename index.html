@@ -394,10 +394,12 @@
               <option value="clasica">💳 USD Tarjeta Clásica</option>
             </select>
 
-            <!-- Pasarela Directa Onramper -->
+            <!-- Pasarela Directa Onramper (MODIFICACIÓN 1) -->
             <div class="account-details-card" id="cardPasarela">
-              <div class="account-title">💳 Pasarela Seguro Onramper (EE.UU. / Internacional)</div>
-              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">Completa tu orden pagando de forma segura con Tarjeta de Crédito/Débito, Apple Pay, Google Pay o ACH.</p>
+              <div class="account-title">💳 Pago Seguro con Tarjeta / Apple Pay (Vía Procesador Internacional Onramper)</div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Debido a las restricciones bancarias de EE. UU. hacia Cuba, procesamos los pagos mediante esta pasarela internacional cifrada. Es la vía más rápida y 100% segura para pagar con Tarjeta (Visa/Mastercard), Apple Pay o Google Pay sin bloqueos.
+              </p>
               
               <a href="https://buy.onramper.com/?defaultCrypto=usdt_bsc&wallets=usdt_bsc:0x2391c04174853D8FfE338a5061e0aE02490aB746&defaultFiat=usd&isFixedFiat=false" target="_blank" class="btn-pay-gateway">
                 🔒 Ir a Pagar con Tarjeta / Apple Pay
@@ -453,6 +455,14 @@
     <section class="inner-container">
       <h2 class="section-title">Preguntas <span>Frecuentes</span></h2>
       <div class="faq-grid">
+        <!-- MODIFICACIÓN 2: Nueva pregunta frecuente agregada de primera -->
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFaq(this)">🔒 ¿Por qué utilizamos este sistema de pago? <span>+</span></button>
+          <div class="faq-content">
+            Debido a las regulaciones y restricciones financieras vigentes de EE. UU. sobre envíos a Cuba, los bancos tradicionales bloquean las transacciones directas. Para solucionar esto y ofrecerte una experiencia fluida, procesamos las transacciones a través de Onramper, un agregador y procesador de pagos internacional líder en la industria fintech. Con una trayectoria consolidada en el sector de infraestructura de pagos globales, Onramper integra las pasarelas de pago más estrictas y auditadas del mercado internacional, garantizando los más altos estándares de seguridad y cumplimiento normativo (PCI-DSS).
+          </div>
+        </div>
+
         <div class="faq-item">
           <button class="faq-header" onclick="toggleFaq(this)">¿Por qué el mínimo de compra es de 2 cilindros? <span>+</span></button>
           <div class="faq-content">
@@ -641,10 +651,10 @@
       "Villa Clara": ["Santa Clara", "Caibarién", "Camajuaní", "Cifuentes", "Encrucijada", "Manicaragua", "Placetas", "Quemado de Güines", "Ranchuelo", "San Juan de los Yeras", "Santo Domingo", "Sagua la Grande", "Remedios"],
       "Sancti Spíritus": ["Sancti Spíritus", "Cabaiguán", "Fomento", "Jatibonico", "La Sierpe", "Taguasco", "Trinidad", "Yaguajay"],
       "Ciego de Ávila": ["Ciego de Ávila", "Baraguá", "Bolivia", "Chambas", "Ciro Redondo", "Florencia", "Majagua", "Morón", "Primero de Enero", "Venezuela"],
-      "Camagüey": ["Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guáimaro", "Jimaguayú", "Minas", "Najasa", "Nuevitas", "Ovispo", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas", "Vertientes"],
-      "Las Tunas": ["Las Tunas", "Amancio", "Colombia", "Jesús Menéndez", "Jobabo", "Majibacoa", "Puerto Padre", "San Antonio"],
-      "Holguín": ["Holguín", "Antilla", "Báguanos", "Banes", "Cacocum", "Calixto García", "Cueto", "Frank País", "Gibara", "Mayarí", "Moa", "Rafael Freyre", "Sagua de Tánamo", "Urbano Noris"],
-      "Granma": ["Bayamo", "Manzanillo", "Bartolomé Masó", "Buey Arriba", "Campechuela", "Cauto Cristo", "Guisa", "Jiguaní", "Media Luna", "Niquero", "Pilón", "Río Cauto", "Yara"],
+      "Camagüey": ["Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guáimaro", "Jimaguayú", "Minas", "Najasa", "Nuevitas", "Otimán", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas"],
+      "Las Tunas": ["Las Tunas", "Amancio", "Colombia", "Jesús Menéndez", "Jobabo", "Majibacoa", "Puerto Padre", "Manatí"],
+      "Holguín": ["Holguín", "Antilla", "Báguanos", "Banes", "Cacocum", "Calixto García", "Gibara", "Mayarí", "Moa", "Rafael Freyre", "Sagua de Tánamo", "Frank País", "Cueto", "Urbano Noris"],
+      "Granma": ["Bayamo", "Bartolomé Masó", "Buey Arriba", "Campechuela", "Cauto Cristo", "Guisa", "Jiguaní", "Manzanillo", "Media Luna", "Niquero", "Pilón", "Río Cauto", "Yara"],
       "Santiago de Cuba": ["Santiago de Cuba", "Contramaestre", "Guamá", "Mella", "Palma Soriano", "San Luis", "Segundo Frente", "Tercer Frente", "Songo - La Maya"],
       "Guantánamo": ["Guantánamo", "Baracoa", "Caimanera", "El Salvador", "Imías", "Maisí", "Manuel Tames", "Niceto Pérez", "San Antonio del Sur", "Yateras"],
       "Isla de la Juventud": ["Isla de la Juventud"]
@@ -652,61 +662,56 @@
 
     function poblarProvincias(selectId) {
       const select = document.getElementById(selectId);
-      select.innerHTML = '<option value="">-- Selecciona una Provincia --</option>';
       for (let prov in cubaData) {
         let opt = document.createElement('option');
         opt.value = prov;
-        opt.innerText = prov;
+        opt.textContent = prov;
         select.appendChild(opt);
       }
     }
 
-    function cargarMunicipios(provSelectId, muniSelectId) {
-      const provVal = document.getElementById(provSelectId).value;
-      const muniSelect = document.getElementById(muniSelectId);
-      muniSelect.innerHTML = '<option value="">-- Selecciona un Municipio --</option>';
-
-      if (provVal && cubaData[provVal]) {
-        cubaData[provVal].forEach(muni => {
+    function cargarMunicipios(provSelectId, munSelectId) {
+      const provSelect = document.getElementById(provSelectId);
+      const munSelect = document.getElementById(munSelectId);
+      const prov = provSelect.value;
+      munSelect.innerHTML = '<option value="">-- Selecciona un Municipio --</option>';
+      if (prov && cubaData[prov]) {
+        cubaData[prov].forEach(mun => {
           let opt = document.createElement('option');
-          opt.value = muni;
-          opt.innerText = muni;
-          muniSelect.appendChild(opt);
+          opt.value = mun;
+          opt.textContent = mun;
+          munSelect.appendChild(opt);
         });
       }
     }
 
-    function guardarUbicacion() {
-      const p = document.getElementById('locProvincia').value;
-      const m = document.getElementById('locMunicipio').value;
-      if (!p || !m) {
-        alert("Por favor selecciona Provincia y Municipio.");
-        return;
-      }
-      provinciaActual = p;
-      municipioActual = m;
-      document.getElementById('currentLocDisplay').innerText = `📍 ${p} · ${m}`;
-      document.getElementById('shipDestination').innerText = `${p} · ${m}`;
-      actualizarEnlacesWhatsApp();
-      closeModal('modalLocation');
-    }
-
-    function registrarUsuario(e) {
-      alert("¡Registro enviado correctamente!");
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      content.classList.toggle('open');
+      const span = btn.querySelector('span');
+      span.textContent = content.classList.contains('open') ? '−' : '+';
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    function toggleFaq(btn) {
-      const content = btn.nextElementSibling;
-      const isOpen = content.classList.contains('open');
-      document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('open'));
-      document.querySelectorAll('.faq-header span').forEach(s => s.innerText = '+');
-      if (!isOpen) {
-        content.classList.add('open');
-        btn.querySelector('span').innerText = '-';
+    function guardarUbicacion() {
+      const prov = document.getElementById('locProvincia').value;
+      const mun = document.getElementById('locMunicipio').value;
+      if (prov) {
+        provinciaActual = prov;
+        municipioActual = mun;
+        document.getElementById('currentLocDisplay').innerText = mun ? `${prov}, ${mun}` : prov;
+        document.getElementById('shipDestination').innerText = mun ? `${prov}, ${mun}` : prov;
+        actualizarEnlacesWhatsApp();
+        closeModal('modalLocation');
       }
+    }
+
+    function registrarUsuario(e) {
+      e.preventDefault();
+      alert('Datos registrados correctamente.');
+      closeModal('modalAuth');
     }
   </script>
 </body>
