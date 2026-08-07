@@ -3,350 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katapulk - Envíos Seguros a Cuba</title>
-    <!-- FontAwesome para Iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Katapulk</title>
     <style>
-        :root {
-            --bg-color: #0d0f12;
-            --card-bg: #161920;
-            --accent-orange: #ff5500;
-            --accent-orange-hover: #e04b00;
-            --text-main: #ffffff;
-            --text-muted: #a0a5b5;
-            --border-color: #262b36;
-            --green-badge: #00c853;
-        }
-
+        /* Reset & Estilos Base */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333333;
             line-height: 1.6;
         }
 
-        /* Header / Navbar */
         header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
-            background-color: #090a0c;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: var(--text-main);
+            color: #0066cc;
             text-decoration: none;
         }
 
-        .logo i {
-            color: var(--accent-orange);
-        }
-
-        .nav-badges {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .badge {
-            background: #1c2029;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .badge-green {
-            background: rgba(0, 200, 83, 0.1);
-            color: #00e676;
-            border-color: rgba(0, 200, 83, 0.3);
-        }
-
-        .btn-orange {
-            background-color: var(--accent-orange);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
+        nav a {
+            margin-left: 1.5rem;
             text-decoration: none;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
+            color: #4b5563;
+            font-weight: 500;
+            transition: color 0.2s ease;
         }
 
-        .btn-orange:hover {
-            background-color: var(--accent-orange-hover);
+        nav a:hover {
+            color: #0066cc;
         }
 
-        /* Container Principal */
-        .container {
+        main {
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 30px;
-            color: var(--text-main);
-        }
-
-        /* Sección de Pagos */
-        .payment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .payment-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .payment-card h3 {
-            color: var(--accent-orange);
-            font-size: 20px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .payment-card p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        /* EXPLICACIÓN NÚMERO 1: Caja informativa antes de pagar */
-        .explanation-box {
-            background: rgba(255, 85, 0, 0.08);
-            border-left: 4px solid var(--accent-orange);
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-size: 13.5px;
-            color: #e0e0e0;
-        }
-
-        .explanation-box strong {
-            color: #fff;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .btn-pay-external {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background-color: var(--accent-orange);
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
+        .hero {
+            background-color: #ffffff;
             border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
+            padding: 3rem 2rem;
             text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(255, 85, 0, 0.2);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
         }
 
-        .btn-pay-external:hover {
-            background-color: var(--accent-orange-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(255, 85, 0, 0.35);
+        .hero h1 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+            color: #111827;
         }
 
-        /* Sección FAQ / Preguntas Frecuentes */
-        .faq-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 35px;
-            margin-top: 40px;
+        .hero p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto 1.5rem auto;
         }
 
-        .faq-item {
-            border-bottom: 1px solid var(--border-color);
-            padding: 18px 0;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-question {
-            font-size: 18px;
-            font-weight: 600;
+        .btn {
+            display: inline-block;
+            background-color: #0066cc;
             color: #ffffff;
-            margin-bottom: 10px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
         }
 
-        .faq-answer {
-            color: var(--text-muted);
-            font-size: 15px;
-            line-height: 1.7;
+        .btn:hover {
+            background-color: #0052a3;
         }
 
-        .faq-answer ul {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-
-        .faq-answer li {
-            margin-bottom: 8px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-badges {
-                display: none;
-            }
-            header {
-                padding: 15px 20px;
-            }
-            .faq-section {
-                padding: 20px;
-            }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #9ca3af;
+            font-size: 0.875rem;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 4rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
+    <!-- Header / Navegación -->
     <header>
-        <a href="#" class="logo">
-            <i class="fa-solid fa-fire-flame-curved"></i> katapulk
-        </a>
-        <div class="nav-badges">
-            <div class="badge">
-                <i class="fa-solid fa-location-dot"></i> Envíos seguros a toda Cuba
-            </div>
-            <div class="badge badge-green">
-                <i class="fa-brands fa-whatsapp"></i> Atención 24/7 WhatsApp
-            </div>
-        </div>
-        <a href="#" class="btn-orange">Entrar</a>
+        <a href="#" class="logo">Katapulk</a>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
     </header>
 
-    <div class="container">
-        
-        <h2 class="section-title">Opciones de Pago</h2>
+    <!-- Contenido Principal -->
+    <main>
+        <section class="hero" id="inicio">
+            <h1>Bienvenido a Katapulk</h1>
+            <p>Envíos rápidos, seguros y confiables directos a tu destino.</p>
+            <a href="#contacto" class="btn">Comenzar</a>
+        </section>
+    </main>
 
-        <div class="payment-grid">
-            
-            <!-- TARJETA / PASARELA DIRECTA (APERTURA EN NUEVA PÁGINA) -->
-            <div class="payment-card">
-                <div>
-                    <h3><i class="fa-regular fa-credit-card"></i> Pasarela de Pago Directa (EE.UU. / Internacional)</h3>
-                    <p>Completa tu pago de forma rápida y segura usando Tarjeta de Crédito/Débito, Apple Pay, Google Pay o ACH.</p>
-                    
-                    <!-- EXPLICACIÓN NÚMERO 1 -->
-                    <div class="explanation-box">
-                        <strong><i class="fa-solid fa-circle-info"></i> Pasos e Instrucciones para completar el pago (Explicación 1):</strong>
-                        <ol style="margin-left: 18px; margin-top: 6px;">
-                            <li>Haz clic en el botón de abajo para abrir la plataforma de pago segura en una ventana emergente o nueva pestaña.</li>
-                            <li>Selecciona tu método de pago preferido (Tarjeta, Apple Pay o Google Pay).</li>
-                            <li>Introduce tus datos de facturación e confirma la transacción.</li>
-                            <li>Una vez completado el pago, guarda tu comprobante digital de confirmación.</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <!-- Botón obligatorio para abrir en PÁGINA NUEVA (evita error de iframe/bloqueo) -->
-                <a href="https://onramper.com" target="_blank" rel="noopener noreferrer" class="btn-pay-external">
-                    Abrir Plataforma de Pago Segura <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-            </div>
-
-            <!-- OTRO MÉTODO DE PAGO / TRANSFERENCIA -->
-            <div class="payment-card">
-                <div>
-                    <h3><i class="fa-solid fa-money-bill-transfer"></i> Pago por Transferencia / Clásica USD</h3>
-                    <p>Si prefieres pagar mediante transferencia bancaria o tarjeta prepago Clásica USD en Cuba.</p>
-                    
-                    <div class="explanation-box" style="border-left-color: #00c853;">
-                        <strong><i class="fa-solid fa-shield-halved"></i> Instrucciones de Pago Manual:</strong>
-                        <p>Realiza la transferencia al número de cuenta/tarjeta indicado y envía el comprobante de pago con tu número de orden a nuestro soporte de WhatsApp.</p>
-                    </div>
-                </div>
-
-                <a href="https://wa.me/123456789" target="_blank" class="btn-pay-external" style="background-color: #00c853;">
-                    Enviar Comprobante por WhatsApp <i class="fa-brands fa-whatsapp"></i>
-                </a>
-            </div>
-
-        </div>
-
-        <!-- SECCIÓN PREGUNTAS FRECUENTES (FAQ) -->
-        <div class="faq-section">
-            <h2 style="margin-bottom: 25px; color: var(--accent-orange);"><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</h2>
-
-            <div class="faq-item">
-                <div class="faq-question">¿Es seguro realizar el pago a través de la plataforma externa?</div>
-                <div class="faq-answer">
-                    Sí, absolutamente. La plataforma de pago utiliza encriptación de nivel bancario SSL de 256 bits y no almacena los datos de tu tarjeta en nuestros servidores locales.
-                </div>
-            </div>
-
-            <!-- VERSIÓN EXTENDIDA DE LA OPCIÓN 3 -->
-            <div class="faq-item">
-                <div class="faq-question">
-                    ¿Por qué el sistema me redirige o abre una ventana/página nueva para realizar el pago? (Opción 3 - Versión Extendida)
-                </div>
-                <div class="faq-answer">
-                    <p>Por estrictas medidas de seguridad internacional y normativas de protección bancaria (como PCI-DSS y autenticación 3D Secure), las plataformas de procesamiento de pagos no permiten ser incrustadas directamente dentro de marcos internos (iframes) de sitios web de terceros.</p>
-                    <br>
-                    <p>Al abrir la plataforma de pago en una <strong>nueva ventana o pestaña independiente</strong>, nos aseguramos de:</p>
-                    <ul>
-                        <li><strong>Evitar bloqueos de seguridad:</strong> Garantiza que el navegador no bloquee el formulario de pago por políticas de origen cruzado (cross-origin iframe restriction).</li>
-                        <li><strong>Proteger tus datos financieros:</strong> Tu información sensible viaja de forma 100% directa y cifrada entre tu navegador y el procesador bancario, sin intermediarios.</li>
-                        <li><strong>Compatibilidad total con Apple Pay y Google Pay:</strong> Permite que las billeteras digitales de tu dispositivo identifiquen el entorno seguro y habiliten la confirmación biométrica (FaceID / huella dactilar) sin errores de permisos.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">¿Cuánto tiempo tarda en confirmarse mi pedido tras realizar el pago?</div>
-                <div class="faq-answer">
-                    Los pagos con tarjeta de crédito/débito y pasarela directa se procesan al instante. Una vez completado, nuestro equipo de logística procesa la orden de inmediato para su entrega.
-                </div>
-            </div>
-
-        </div>
-
-    </div>
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 Katapulk. Todos los derechos reservados.</p>
+    </footer>
 
 </body>
 </html>
