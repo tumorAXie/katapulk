@@ -601,9 +601,17 @@
 
     function actualizarEnlaceTransak() {
       const montoTotal = cantidad * PRECIO_UNITARIO;
-      const transakUrl = `https://global.transak.com/?apiKey=${TRANSAK_API_KEY}&cryptoCurrencyCode=USDT&network=bsc&walletAddress=${MY_USDT_WALLET}&fiatCurrency=USD&fiatAmount=${montoTotal}&disableWalletAddressForm=true`;
       
-      document.getElementById('btnTransakPay').href = transakUrl;
+      const params = new URLSearchParams({
+        apiKey: TRANSAK_API_KEY,
+        cryptoCurrencyCode: 'USDT',
+        network: 'bsc',
+        walletAddress: MY_USDT_WALLET,
+        fiatCurrency: 'USD',
+        fiatAmount: montoTotal
+      });
+
+      document.getElementById('btnTransakPay').href = `https://global.transak.com/?${params.toString()}`;
     }
 
     function actualizarEnlacesWhatsApp() {
