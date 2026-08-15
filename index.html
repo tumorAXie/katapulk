@@ -390,18 +390,16 @@
             <label class="payment-select-label">Selecciona el Método de Pago:</label>
             <select class="payment-dropdown" id="paymentMethodSelect" onchange="seleccionarMetodoPago()">
               <option value="">-- Elige una opción de pago --</option>
-              <option value="pasarela">💳 Tarjeta / Apple Pay / Google Pay / ACH</option>
+              <option value="pasarela">💳 Tarjeta / Apple Pay / Google Pay / Transferencia</option>
               <option value="clasica">💳 USD Tarjeta Clásica</option>
             </select>
 
-            <!-- Pasarela Directa Onramper -->
+            <!-- Pasarela Directa Transak -->
             <div class="account-details-card" id="cardPasarela">
-              <div class="account-title">💳 Pago Seguro con Tarjeta / Apple Pay (Vía Procesador Internacional Onramper)</div>
-              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
-                Debido a las restricciones bancarias de EE. UU. hacia Cuba, procesamos los pagos mediante esta pasarela internacional cifrada. Es la vía más rápida y 100% segura para pagar con Tarjeta (Visa/Mastercard), Apple Pay o Google Pay sin bloqueos.
-              </p>
+              <div class="account-title">💳 Pasarela Segura Transak (EE.UU. / Internacional)</div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">Completa tu orden pagando de forma segura con Tarjeta de Crédito/Débito, Apple Pay, Google Pay o Transferencia.</p>
               
-              <a href="https://buy.onramper.com/?defaultCrypto=usdt_bsc&wallets=usdt_bsc:0x2391c04174853D8FfE338a5061e0aE02490aB746&defaultFiat=usd&isFixedFiat=false" target="_blank" class="btn-pay-gateway">
+              <a id="btnTransakPay" href="#" target="_blank" class="btn-pay-gateway">
                 🔒 Ir a Pagar con Tarjeta / Apple Pay
               </a>
             </div>
@@ -455,13 +453,6 @@
     <section class="inner-container">
       <h2 class="section-title">Preguntas <span>Frecuentes</span></h2>
       <div class="faq-grid">
-        <div class="faq-item">
-          <button class="faq-header" onclick="toggleFaq(this)">🔒 ¿Por qué utilizamos este sistema de pago? <span>+</span></button>
-          <div class="faq-content">
-            Debido a las regulaciones y restricciones financieras vigentes de EE. UU. sobre envíos a Cuba, los bancos tradicionales bloquean las transacciones directas. Para solucionar esto y ofrecerte una experiencia fluida, procesamos las transacciones a través de Onramper, un agregador y procesador de pagos internacional líder en la industria fintech. Con una trayectoria consolidada en el sector de infraestructura de pagos globales, Onramper integra las pasarelas de pago más estrictas y auditadas del mercado internacional, garantizando los más altos estándares de seguridad y cumplimiento normativo (PCI-DSS).
-          </div>
-        </div>
-
         <div class="faq-item">
           <button class="faq-header" onclick="toggleFaq(this)">¿Por qué el mínimo de compra es de 2 cilindros? <span>+</span></button>
           <div class="faq-content">
@@ -590,29 +581,13 @@
     const CLASICA_NUMERO = "A consultar vía WhatsApp";
     const CLASICA_NAME = "A consultar vía WhatsApp";
 
+    const TRANSAK_API_KEY = "4f196d39-3de7-4e31-92dd-e5a013fed416";
+    const MY_USDT_WALLET = "0x2391c04174853D8FfE338a5061e0aE02490aB746";
+
     const PRECIO_UNITARIO = 29;
     let cantidad = 2;
     let provinciaActual = "Envíos a toda la Isla";
     let municipioActual = "";
-
-    const cubaData = {
-      "Pinar del Río": ["Pinar del Río", "Consolación del Sur", "Viñales", "San Juan y Martínez", "San Luis", "Guane", "Mantua", "Minas de Matahambre", "La Palma", "Los Palacios", "Sandino"],
-      "Artemisa": ["Artemisa", "Bauta", "Caimito", "Guanajay", "Mariel", "San Antonio de los Baños", "Bahía Honda", "San Cristóbal", "Candelaria", "Alquízar", "Güira de Melena"],
-      "La Habana": ["Arroyo Naranjo", "Boyeros", "Centro Habana", "Cerro", "Cotorro", "Diez de Octubre", "Guanabacoa", "La Habana del Este", "La Habana Vieja", "La Lisa", "Marianao", "Playa", "Plaza de la Revolución", "Regla", "San Miguel del Padrón"],
-      "Mayabeque": ["San José de las Lajas", "Batabanó", "Bauta", "Bejucal", "Güines", "Jaruco", "Madruga", "Melena del Sur", "Nueva Paz", "Quivicán", "San Nicolás", "Santa Cruz del Norte"],
-      "Matanzas": ["Matanzas", "Cárdenas", "Varadero", "Colón", "Jovellanos", "Jagüey Grande", "Martí", "Pedro Betancourt", "Perico", "Unión de Reyes", "Calimete", "Los Arabos", "Ciénaga de Zapata"],
-      "Cienfuegos": ["Cienfuegos", "Abreus", "Aguada de Pasajeros", "Cruces", "Cumanayagua", "Lajas", "Palmira", "Rodas"],
-      "Villa Clara": ["Santa Clara", "Caibarién", "Camajuaní", "Cifuentes", "Encrucijada", "Manicaragua", "Placetas", "Quemado de Güines", "Ranchuelo", "San Juan de los Yeras", "Santo Domingo", "Sagua la Grande", "Remedios"],
-      "Sancti Spíritus": ["Sancti Spíritus", "Cabaiguán", "Fomento", "Jatibonico", "La Sierpe", "Taguasco", "Trinidad", "Yaguajay"],
-      "Ciego de Ávila": ["Ciego de Ávila", "Baraguá", "Bolivia", "Chambas", "Ciro Redondo", "Florencia", "Majagua", "Morón", "Primero de Enero", "Venezuela"],
-      "Camagüey": ["Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guáimaro", "Jimaguayú", "Minas", "Najasa", "Nuevitas", "Otimián", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas"],
-      "Las Tunas": ["Las Tunas", "Amancio", "Colombia", "Jesús Menéndez", "Jobabo", "Majibacoa", "Puerto Padre", "Manatí"],
-      "Holguín": ["Holguín", "Antilla", "Báguanos", "Banes", "Cacocum", "Calixto García", "Cueto", "Frank País", "Gibara", "Mayarí", "Moa", "Rafael Freyre", "Sagua de Tánamo", "Urbano Noris"],
-      "Granma": ["Bayamo", "Bartolomé Masó", "Buey Arriba", "Campechuela", "Cauto Cristo", "Guisa", "Jiguaní", "Manzanillo", "Media Luna", "Niquero", "Pilón", "Río Cauto", "Yara"],
-      "Santiago de Cuba": ["Santiago de Cuba", "Contramaestre", "Guamá", "Mella", "Palma Soriano", "San Luis", "Segundo Frente", "Songo - La Maya", "Tercer Frente"],
-      "Guantánamo": ["Guantánamo", "Baracoa", "Caimanerá", "El Salvador", "Imías", "Maisí", "Manuel Tames", "Niceto Pérez", "San Antonio del Sur", "Yateras"],
-      "Isla de la Juventud": ["Nueva Gerona"]
-    };
 
     window.onload = function() {
       document.getElementById('valClasicaNum').innerText = CLASICA_NUMERO;
@@ -621,34 +596,14 @@
       poblarProvincias('locProvincia');
       poblarProvincias('regProvincia');
       actualizarEnlacesWhatsApp();
+      actualizarEnlaceTransak();
     };
 
-    function poblarProvincias(selectId) {
-      const select = document.getElementById(selectId);
-      select.innerHTML = '<option value="">-- Selecciona una Provincia --</option>';
-      for (let prov in cubaData) {
-        const option = document.createElement('option');
-        option.value = prov;
-        option.innerText = prov;
-        select.appendChild(option);
-      }
-    }
-
-    function cargarMunicipios(provSelectId, muniSelectId) {
-      const provSelect = document.getElementById(provSelectId);
-      const muniSelect = document.getElementById(muniSelectId);
-      const prov = provSelect.value;
-
-      muniSelect.innerHTML = '<option value="">-- Selecciona un Municipio --</option>';
-
-      if (prov && cubaData[prov]) {
-        cubaData[prov].forEach(mun => {
-          const option = document.createElement('option');
-          option.value = mun;
-          option.innerText = mun;
-          muniSelect.appendChild(option);
-        });
-      }
+    function actualizarEnlaceTransak() {
+      const montoTotal = cantidad * PRECIO_UNITARIO;
+      const transakUrl = `https://global.transak.com/?apiKey=${TRANSAK_API_KEY}&cryptoCurrencyCode=USDT&network=bsc&walletAddress=${MY_USDT_WALLET}&fiatCurrency=USD&fiatAmount=${montoTotal}&disableWalletAddressForm=true`;
+      
+      document.getElementById('btnTransakPay').href = transakUrl;
     }
 
     function actualizarEnlacesWhatsApp() {
@@ -670,6 +625,7 @@
       document.getElementById('qty').innerText = cantidad;
       document.getElementById('totalPriceDisplay').innerText = `$${(cantidad * PRECIO_UNITARIO).toFixed(2)} USD`;
       actualizarEnlacesWhatsApp();
+      actualizarEnlaceTransak();
     }
 
     function seleccionarMetodoPago() {
@@ -687,45 +643,78 @@
       }
     }
 
-    function guardarUbicacion() {
-      const prov = document.getElementById('locProvincia').value;
-      const mun = document.getElementById('locMunicipio').value;
+    const cubaData = {
+      "Pinar del Río": ["Pinar del Río", "Consolación del Sur", "Viñales", "San Juan y Martínez", "San Luis", "Guane", "Mantua", "Minas de Matahambre", "La Palma", "Los Palacios", "Sandino"],
+      "Artemisa": ["Artemisa", "Bauta", "Caimito", "Guanajay", "Mariel", "San Antonio de los Baños", "Bahía Honda", "San Cristóbal", "Candelaria", "Alquízar", "Güira de Melena"],
+      "La Habana": ["Arroyo Naranjo", "Boyeros", "Centro Habana", "Cerro", "Cotorro", "Diez de Octubre", "Guanabacoa", "La Habana del Este", "La Habana Vieja", "La Lisa", "Marianao", "Playa", "Plaza de la Revolución", "Regla", "San Miguel del Padrón"],
+      "Mayabeque": ["San José de las Lajas", "Batabanó", "Bauta", "Bejucal", "Güines", "Jaruco", "Madruga", "Melena del Sur", "Nueva Paz", "Quivicán", "San Nicolás", "Santa Cruz del Norte"],
+      "Matanzas": ["Matanzas", "Cárdenas", "Varadero", "Colón", "Jovellanos", "Jagüey Grande", "Martí", "Pedro Betancourt", "Perico", "Union de Reyes", "Calimete", "Los Arabos", "Ciénaga de Zapata"],
+      "Cienfuegos": ["Cienfuegos", "Abreus", "Aguada de Pasajeros", "Cruces", "Cumanayagua", "Lajas", "Palmira", "Rodas"],
+      "Villa Clara": ["Santa Clara", "Caibarién", "Camajuaní", "Cifuentes", "Encrucijada", "Manicaragua", "Placetas", "Quemado de Güines", "Ranchuelo", "San Juan de los Yeras", "Santo Domingo", "Sagua la Grande", "Remedios"],
+      "Sancti Spíritus": ["Sancti Spíritus", "Cabaiguán", "Fomento", "Jatibonico", "La Sierpe", "Taguasco", "Trinidad", "Yaguajay"],
+      "Ciego de Ávila": ["Ciego de Ávila", "Baraguá", "Bolivia", "Chambas", "Ciro Redondo", "Florencia", "Majagua", "Morón", "Primero de Enero", "Venezuela"],
+      "Camagüey": ["Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guáimaro", "Jimaguayú", "Minas", "Najasa", "Nuevitas", "Ovispo", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas", "Vertientes"],
+      "Las Tunas": ["Las Tunas", "Amancio", "Colombia", "Jesús Menéndez", "Jobabo", "Majibacoa", "Puerto Padre", "San Antonio"],
+      "Holguín": ["Holguín", "Antilla", "Báguanos", "Banes", "Cacocum", "Calixto García", "Cueto", "Frank País", "Gibara", "Mayarí", "Moa", "Rafael Freyre", "Sagua de Tánamo", "Urbano Noris"],
+      "Granma": ["Bayamo", "Manzanillo", "Bartolomé Masó", "Buey Arriba", "Campechuela", "Cauto Cristo", "Guisa", "Jiguaní", "Media Luna", "Niquero", "Pilón", "Río Cauto", "Yara"],
+      "Santiago de Cuba": ["Santiago de Cuba", "Contramaestre", "Guamá", "Mella", "Palma Soriano", "San Luis", "Segundo Frente", "Tercer Frente", "Songo - La Maya"],
+      "Guantánamo": ["Guantánamo", "Baracoa", "Caimanera", "El Salvador", "Imías", "Maisí", "Manuel Tames", "Niceto Pérez", "San Antonio del Sur", "Yateras"],
+      "Isla de la Juventud": ["Isla de la Juventud"]
+    };
 
-      if (!prov) {
-        alert("Por favor selecciona una provincia.");
+    function poblarProvincias(selectId) {
+      const select = document.getElementById(selectId);
+      select.innerHTML = '<option value="">-- Selecciona una Provincia --</option>';
+      for (let prov in cubaData) {
+        let opt = document.createElement('option');
+        opt.value = prov;
+        opt.innerText = prov;
+        select.appendChild(opt);
+      }
+    }
+
+    function cargarMunicipios(provSelectId, muniSelectId) {
+      const provVal = document.getElementById(provSelectId).value;
+      const muniSelect = document.getElementById(muniSelectId);
+      muniSelect.innerHTML = '<option value="">-- Selecciona un Municipio --</option>';
+
+      if (provVal && cubaData[provVal]) {
+        cubaData[provVal].forEach(muni => {
+          let opt = document.createElement('option');
+          opt.value = muni;
+          opt.innerText = muni;
+          muniSelect.appendChild(opt);
+        });
+      }
+    }
+
+    function guardarUbicacion() {
+      const p = document.getElementById('locProvincia').value;
+      const m = document.getElementById('locMunicipio').value;
+      if (!p || !m) {
+        alert("Por favor selecciona Provincia y Municipio.");
         return;
       }
-
-      provinciaActual = prov;
-      municipioActual = mun;
-
-      const textoMostrar = mun ? `${prov}, ${mun}` : prov;
-      document.getElementById('currentLocDisplay').innerText = textoMostrar;
-      document.getElementById('shipDestination').innerText = textoMostrar;
-
+      provinciaActual = p;
+      municipioActual = m;
+      document.getElementById('currentLocDisplay').innerText = `📍 ${p} · ${m}`;
+      document.getElementById('shipDestination').innerText = `${p} · ${m}`;
       actualizarEnlacesWhatsApp();
       closeModal('modalLocation');
     }
 
-    function registrarUsuario(event) {
-      // Formspree maneja el envío automáticamente
+    function registrarUsuario(e) {
+      alert("¡Registro enviado correctamente!");
     }
 
-    function openModal(id) {
-      document.getElementById(id).classList.add('active');
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
-    }
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
     function toggleFaq(btn) {
       const content = btn.nextElementSibling;
       const isOpen = content.classList.contains('open');
-      
       document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('open'));
       document.querySelectorAll('.faq-header span').forEach(s => s.innerText = '+');
-
       if (!isOpen) {
         content.classList.add('open');
         btn.querySelector('span').innerText = '-';
