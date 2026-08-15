@@ -1,0 +1,48 @@
+export default async function handler(req, res) {
+  // Configuración de cabeceras CORS para permitir llamadas desde tu página web
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método no permitido' });
+  }
+
+  const { fiatAmount } = req.body;
+
+  try {
+    const response = await fetch('https://api.transak.com/api/v2/auth/get-widget-url', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-secret': process.env.TRANSAK_API_SECRET // Se lee de forma segura desde las variables de entorno
+      },
+      body: JSON.stringify({
+        apiKey: process.env.TRANSAK_API_KEY || '4f196d39-3de7-4e31-92dd-e5a013fed416',
+        cryptoCurrencyCode: 'USDT',
+        network: 'bsc',
+        walletAddress: '0x2391c04174853D8FfE338a5061e0aE02490aB746',
+        fiatCurrency: 'USD',
+        fiatAmount: Number(fiatAmount) || 58
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.response && data.response.widgetUrl) {
+      return res.status(200).json({ url: data.response.widgetUrl });
+    } else {
+      return res.status(400).json({ error: 'Error devuelto por Transak', details: data });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: 'Error interno en el servidor', message: error.message });
+  }
+}
